@@ -1,6 +1,8 @@
 \section{Results}
 
-To demonstrate the usefulness of the enhancements to VTK enabling scientific visualization, and to test various use cases, we have implemented three kinds of applications for the \texttt{vtkRenderWindow} approach: GeometryViewer, VolumeViewer, and MooseViewer using VRUI as the VR toolkit, and one simple example using \texttt{vtkOpenVR}. As the name suggests, the GeometryViewer enables end-users to load geometry files from the disk, the VolumeViewer renders a structured dataset using VTK's GPU-based volume rendering technique, and MooseViewer renders a multi-block unstructured dataset as geometry or volume depending on the end-user's interactive selections. Details on each of these applications or examples with screen captures are provided in the next few sub-sections. 
+To demonstrate the usefulness of the enhancements to VTK enabling scientific
+visualization, and to test various use cases, we have implemented three kinds of
+applications for the \texttt{vtkRenderingExternal} approach: GeometryViewer, VolumeViewer, and MooseViewer using VRUI as the VR toolkit, and one simple example using \texttt{vtkOpenVR}. As the name suggests, the GeometryViewer enables end-users to load geometry files from the disk, the VolumeViewer renders a structured dataset using VTK's GPU-based volume rendering technique, and MooseViewer renders a multi-block unstructured dataset as geometry or volume depending on the end-user's interactive selections. Details on each of these applications or examples with screen captures are provided in the next few sub-sections. 
 
 \subsection{Immersive Environments}
 
@@ -12,7 +14,7 @@ A variety of immersive environment exists from head-mounted displays (HMD) to lo
 \item A HTC VIVE.
 \end{compactitem}
 
-In the first two cases, the \texttt{vtkRenderWindow} module was used with the Vrui VR toolkit provided the configuration necessary to run the application. For the HTC VIVE, we leveraged \texttt{vtkOpenVR}. 
+In the first two cases, the \texttt{vtkRenderingExternal} module was used with the Vrui VR toolkit provided the configuration necessary to run the application. For the HTC VIVE, we leveraged \texttt{vtkOpenVR}. 
 
 \subsection{VRUI Implementation}
 
@@ -64,6 +66,17 @@ MooseViewer~\cite{MooseViewer} brings the ability of reading and displaying Moos
 We see, in Figure~\ref{fig:fuelpin}, surface geometry colored by the selected temperature attribute animated using the \textit{Animation Dialog}.
 
 \subsection{OpenVR Implementation}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=3.5in]{images/Dragon.jpg}
+  \caption{Polygonal rendering of a sample dataset by VTK for OpenVR on HTC Vive.}
+  \label{fig:openvrdragon}
+\end{figure}
 
-\subsection{Ply-file Example}
-
+This example creates a simple VTK pipeline that reads a polygonal geometry file
+using the \texttt{vtkPLYReader} and maps it to the scene using the vtkOpenVR
+classes described above. As seen in Figure \ref{fig:openvrdragon}, the rendering
+classes create a stereo pair from the view and warp it to the camera model of
+the HTC Vive. 
+The example is available as a test case under the
+\texttt{vtkOpenVR} module in the VTK source.

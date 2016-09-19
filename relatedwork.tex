@@ -27,10 +27,10 @@ VTK generates the geometry in the form of actors that consist of polygons and pr
 \texttt{vtkActorToPF} transforms these actors into pf-Geodes (nodes) that are included in a Performer (OpenSceneGraph) scene graph. The geometry is created by VTK, and the scene graph is rendered without VTK. Only geometry is transformed. Cameras, lights, rendering and interaction are not incorporated. Several applications utilized the equivalent \texttt{vtkActorToOSG} for an OpenSceneGraph-based scene graph~\cite{VE-Suite:2016} or directly into OpenGL~\cite{Ohno:2006}. Others have used VTK in a preprocessing step to produce geometries or textures eliminating the need for a direct connection to VTK\cite{Bivins:2005}.
 
 \begin{figure}[h!]
- \centering
+  \centering
   \includegraphics[width=\linewidth]{images/vtkActorToPF.pdf}
   \caption{VTK, vtkActorToPF and Performer interaction diagram. (Recreated from Paul Rajlich~\ref{fig:vtkActorToPF}.)}
-\label{fig:vtkActorToPF}
+  \label{fig:vtkActorToPF}
 \end{figure}
 
 VTK can be used to create, transport and save geometry without rendering. As effective as this approach can be, the loose coupling of VTK and a VR toolkit creates more obstacles than benefits from an application developers perspective, and is not built upon by this work.
@@ -53,13 +53,18 @@ picking input operations do not conform to the shifted rendering.
 Our \texttt{vtkRenderingExternal} VTK module formalizes this integration providing lights, interaction and picking connectivity lacking in other implementations, while allowing the application developer complete access to the VTK pipeline.
 
 \textbf{\textit{VR Toolkit embedding}} A similarly time-proven approach is based on the modification of the VTK renderer and render window~\cite{van2000vista, Hannema:2001, Shamonin02vtkcave, Belleman:2003}.
-To render in an immersive environment, derived classes of the \texttt{Renderer} and \texttt{RenderWindow} are created, which depends on fundamental calls to the VR toolkit.
-Thus, VTK-based applications can simply exchanged these two items to run on the desktop or immersive environment.
+To render in an immersive environment, derived classes of the
+\texttt{vtkRenderer} and \texttt{vtkRenderWindow} are created, which depends on fundamental calls to the VR toolkit.
+Thus, VTK-based applications can simply exchange these two items to run on the desktop or immersive environment.
 VTK has evolved significantly over the years, as have the diversity of virtual reality products.
-vtkCave~\cite{Tufo:1999}, for the CAVELib~\cite{CAVELib:2016}, followed by vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012}, for VRJuggler~\cite{Bierbaum:2001}, created third party software essentially deriving RenderWindow and Renderer classes, but, from outside of VTK, lighting and interaction were not shared and resulted in troublesome behavior.
+vtkCave~\cite{Tufo:1999}, for the CAVELib~\cite{CAVELib:2016}, followed by
+vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012}, for
+VRJuggler~\cite{Bierbaum:2001}, created third party software essentially
+deriving \texttt{vtkRenderWindow} and \texttt{vtkRenderer} classes, but, from
+outside of VTK; lighting and interaction were not shared and resulted in troublesome behavior.
 
 In this work, we've created a new VTK module based on OpenVR~\cite{OpenVR:2016}.
-OpenVR is a application programming interface (API) developed by Valve for supporting  SteamVR (HTC Vive) and other virtual reality hardware~\cite{Road2VR:2015}.
+OpenVR is an application programming interface (API) developed by Valve for supporting  SteamVR (HTC Vive) and other virtual reality hardware~\cite{Road2VR:2015}.
 The OpenVR module supports several immersive environments now without the issues faced by previous work, and provides a template for embedding other VR Toolkits within VTK in the future.
 
 \textit{\textbf{OpenGL intercept}}
