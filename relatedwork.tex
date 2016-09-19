@@ -33,7 +33,7 @@ VTK generates the geometry in the form of actors that consist of polygons and pr
 \label{fig:vtkActorToPF}
 \end{figure}
 
-VTK can be used to create, transport and save geometry without rendering. As effective as this approach can be, the loose coupling of VTK and a VR toolkit creates more obstacles than benefit from an application developers perspective, and is not built upon by this work.
+VTK can be used to create, transport and save geometry without rendering. As effective as this approach can be, the loose coupling of VTK and a VR toolkit creates more obstacles than benefits from an application developers perspective, and is not built upon by this work.
 
 \textbf{\textit{OpenGL context sharing}} Rather than share just the VTK geometry, the application developer would like to use all of the VTK API from within their immersive application.
 In VTK, the renderer and render window classes are responsible for rendering scenes.
@@ -42,7 +42,7 @@ An OpenGL context represents: all of the state; the default framebuffer; and eve
 The application developer would simply like to share the OpenGL context from the VR Toolkit with a third party rendering software (e.g. Delta3D~\cite{McDowell:2006}, OpenSceneGraph~\cite{Wang:2010} and VTK). 
 
 In previous work, by Sherman et al~\cite{Sherman:2010} and others, Delta3D
-and OpenSceneGraph were hacked to instead use windows and associated
+and OpenSceneGraph were quicly modified to instead use windows and associated
 OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.
 % in final paper can mention FreeVR.
 These solutions are generally limited in their integration.
@@ -56,7 +56,7 @@ Our \texttt{vtkRenderingExternal} VTK module formalizes this integration providi
 To render in an immersive environment, derived classes of the \texttt{Renderer} and \texttt{RenderWindow} are created, which depends on fundamental calls to the VR toolkit.
 Thus, VTK-based applications can simply exchanged these two items to run on the desktop or immersive environment.
 VTK has evolved significantly over the years, as have the diversity of virtual reality products.
-vtkCave~\cite{Tufo:1999}, for the CAVELib~\cite{CAVELib:2016}, followed by vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012}, for VRJuggler~\cite{Bierbaum:2001}, created third party software essentially deriving RenderWindow and Renderer classes, but, from outside of VTK, lighting and interaction were not shared and/or troublesome.
+vtkCave~\cite{Tufo:1999}, for the CAVELib~\cite{CAVELib:2016}, followed by vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012}, for VRJuggler~\cite{Bierbaum:2001}, created third party software essentially deriving RenderWindow and Renderer classes, but, from outside of VTK, lighting and interaction were not shared and resulted in troublesome behavior.
 
 In this work, we've created a new VTK module based on OpenVR~\cite{OpenVR:2016}.
 OpenVR is a application programming interface (API) developed by Valve for supporting  SteamVR (HTC Vive) and other virtual reality hardware~\cite{Road2VR:2015}.
@@ -75,8 +75,8 @@ immersive interface | albeit a limited interface given the open-loop nature of
 grabbing the rendering, but not connecting back to the parameter interface.
 Yet, the perspective rendering alone can be extremely valuable and allow
 scientists, engineers or medical researchers to interact with their desktop
-tools in a whole new way.
-Basic OpenGL, whatever that is, is sure to work using interception.
+tools in a whole new way. However, many of these methods lack full functionality in the immersive environments, which limits the usefulness to end users.
+Pure OpenGL, without any modificaitons or additions,  is sure to work using interception.
 The difficulty of using intercept methods is that they require more coding
 and tagging, and are not guarentted to work at all, and this is becoming
 more difficult with OpenGL 3.0+, especially when using a core OpenGL profile.
@@ -84,20 +84,20 @@ more difficult with OpenGL 3.0+, especially when using a core OpenGL profile.
 %In contrast to the OpenGL intercept method, the work in this paper is for the application developer, and there is no intention to eliminate the need to write code.
 %%Rather ...?
 
-\textit{\textbf{Enhanced performance}} Near real-time update of scientific visualization metaphors is crucial in for immersive environments.
-The field has seen several proposed solutions from decoupling rendering, from processing to parallel visualization~\cite{Bryson:1996, vanReimersdahl:2000}.
+\textit{\textbf{Enhanced performance}} Near real-time update of scientific visualization metaphors is crucial in immersive environments.
+The field has seen several proposed solutions from decoupling rendering, and processing to parallel visualization~\cite{Bryson:1996, vanReimersdahl:2000}.
 This effort stands apart from all these previous efforts, which valiant
 as they were, ultimately have been lost to time as VTK has continued to
 evolve, making it difficult for tacked-together components to remain in
 sync with the API.
 Rather, by providing rendering access from within the VTK API itself, new
 tools can rely on a stability that hasn't been available for techinques
-that do something outside the bounds of the API design, often accessing
+that perform functions outside the bounds of the API design, often accessing
 internal features that do not have the assurance of stability.
 As a commercially supported open-source tool, VTK's rendering performance is
 continually being advanced.
 VTK has been around since 1993 with over one hundred thousand repository commits from over two-hundred and fifty contributors.
-Having the latest algorithm implementation requires using the existing implementation in VTK or contributing it to VTK.
+Having the latest algorithm implementation requires using the existing implementation in VTK or contributing the algorithm to VTK.
 
 We present internal enhancements to VTK that significantly impact immersive
 environment application development.

@@ -4,7 +4,7 @@ To demonstrate the usefulness of the enhancements to VTK enabling scientific vis
 
 \subsection{Immersive Environments}
 
-A variety of immersive environment exists from head-mounted displays (HMD) to low cost IQ station~\cite{Sherman:2010} to four or six sided CAVEs. It is important for any immersive application to support a large number of immersive environments as each has their strength and applicability in real world scenarios. We have tested our work in following virtual environments: 
+A variety of immersive environment exists from head-mounted displays (HMD) to low cost IQ station~\cite{Sherman:2010} and even four or six sided CAVEs. Immersive applications need to support a large number of immersive environments, as each has their strength and applicability in real world scenarios. We have tested our work in following virtual environments: 
 
 \begin{compactitem}
 \item A four-sided CAVE,
@@ -12,13 +12,13 @@ A variety of immersive environment exists from head-mounted displays (HMD) to lo
 \item A HTC VIVE.
 \end{compactitem}
 
-In the first two cases, the \texttt{vtkRenderWindow} module was used with the Vrui VR toolkit provided the configuration necessary to run the application. For the HTC VIVE we leveraged \texttt{vtkOpenVR}. 
+In the first two cases, the \texttt{vtkRenderWindow} module was used with the Vrui VR toolkit provided the configuration necessary to run the application. For the HTC VIVE, we leveraged \texttt{vtkOpenVR}. 
 
 \subsection{VRUI Implementation}
 
 The task of a VR toolkit is to shield an application developer from the particular configuration of an immersive environment, such that applications can be developed quickly and in a portable and scalable fashion. Three important parts of this overarching goal are: encapsulation of the display environment; encapsulation of the distribution environment; and encapsulation of the input device environment.
 
-The Vrui VR toolkit aims to support fully scalable and portable applications that run on a range of immersive environments starting from a laptop with a touchpad, over desktop environments with special input devices such as space balls, to full-blown immersive VR environments ranging from a single-screen workbench to a multi-screen tiled display wall or CAVE. Applications using the Vrui VR toolkit are written without a particular input environment in mind, and Vrui-enabled immersive environments are configured to map the available displays and input devices to the application such that they appear to be written natively for the environment it runs on. For example, a Vrui application running on the desktop should be as usable and intuitive as any 3D application written specifically for the desktop.
+The Vrui VR toolkit aims to support fully scalable and portable applications that run on a range of immersive environments starting from a laptop with a touchpad, over desktop environments with special input devices such as space balls, to full-blown immersive VR environments ranging from a single-screen workbench to a multi-screen tiled display wall or CAVE. Applications using the Vrui VR toolkit are written without a particular input environment in mind, and Vrui-enabled immersive environments are configured to map the available displays and input devices to the application such that they appear to be written natively for the environment. For example, a Vrui application running on the desktop should be as usable and intuitive as any 3D application written specifically for the desktop.
 
 We developed some example applications that serve as validation of the said work. There is an example within the VTK source tree for \texttt{vtkRenderingExternal} module that renders a VTK sphere in a GLUT window. Three advanced applications are also developed that illustrate VTK rendering within a Vrui created OpenGL context. These applications exhibit varying capabilities of the VTK infrastructure leveraged by the \texttt{vtkRenderingExternal} module. 
 
@@ -46,7 +46,7 @@ In Figure~\ref{fig:vessel}, we show Vrui's user interface (UI) showing rendering
 
 VolumeViewer~\cite{VolumeViewer} reads in and renders VTK ImageData (.vti) files that define structured points datasets.  The application instantiates a pipeline that allows volume rendering of the dataset. Several pre-defined \textit{Color Maps} help change mapping of scalar values to colors. A  \textit{Transfer Function Editor} allows varying color and opacity of the rendered volume.
 
-Figure~\ref{fig:volume} depicts our implementation of a transfer function editor using Vrui's UI. In addition, we are leveraging the \texttt{vtkFlyingEdges3D} to display the oil isosurfaces in yellow blended in the volume.
+Figure~\ref{fig:volume} depicts our implementation of a transfer function editor using Vrui's UI. In addition, we are leveraging the \texttt{vtkFlyingEdges3D} to display the oil isosurfaces in yellow while blending the results in the volume.
 
 Widgets like Isosurfaces, Contours, Slice provide VTK level operations that can be carried out on the dataset. To circumvent possible interaction problems when dealing with large datasets, a low resolution mode is provided that down samples the dataset. This lets the end-user fulfill actions quickly that would otherwise take more time on the actual dataset, and then revert back to the actual size when done to visualize the output of performed actions at full scale.
 
