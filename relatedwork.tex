@@ -6,7 +6,7 @@ These are certainly exemplary and valuable applications.
 However, when building immersive applications, much like desktop applications, with scientific requirements, it is often more efficient to leverage the open source visualization toolkit (VTK)~\cite{Schroeder:2004}.
 
 Throughout the past two decades, several research teams and developers have integrated VTK with immersive environments to varying degrees of success.
-Four fundamental approaches are availble to bring VTK into an
+Four fundamental approaches are available to bring VTK into an
 immersive rendering system:
 
 \begin{compactitem}
@@ -41,8 +41,8 @@ VTK creates it's own window and associates an OpenGL context with that window to
 An OpenGL context represents: all of the state; the default framebuffer; and everything affiliated with OpenGL with respect to the renderer, window and application.
 The application developer would simply like to share the OpenGL context from the VR Toolkit with a third party rendering software (e.g. Delta3D~\cite{McDowell:2006}, OpenSceneGraph~\cite{Wang:2010} and VTK). 
 
-In previous work, by Sherman et al~\cite{Sherman:2010} and others, Delta3D
-and OpenSceneGraph were quicly modified to instead use windows and associated
+In previous work, by Sherman et al.~\cite{Sherman:2010} and others, Delta3D
+and OpenSceneGraph were quickly modified to instead use windows and associated
 OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.
 % in final paper can mention FreeVR.
 These solutions are generally limited in their integration.
@@ -64,7 +64,7 @@ deriving \texttt{vtkRenderWindow} and \texttt{vtkRenderer} classes, but, from
 outside of VTK; lighting and interaction were not shared and resulted in troublesome behavior.
 
 In this work, we've created a new VTK module based on OpenVR~\cite{OpenVR:2016}.
-OpenVR is an application programming interface (API) developed by Valve for supporting  SteamVR (HTC Vive) and other virtual reality hardware~\cite{Road2VR:2015}.
+OpenVR is an application programming interface (API) developed by Valve for supporting their SteamVR ecosystem, compatible with the HTC Vive and other virtual reality hardware~\cite{Road2VR:2015}.
 The OpenVR module supports several immersive environments now without the issues faced by previous work, and provides a template for embedding other VR Toolkits within VTK in the future.
 
 \textit{\textbf{OpenGL intercept}}
@@ -81,22 +81,22 @@ grabbing the rendering, but not connecting back to the parameter interface.
 Yet, the perspective rendering alone can be extremely valuable and allow
 scientists, engineers or medical researchers to interact with their desktop
 tools in a whole new way. However, many of these methods lack full functionality in the immersive environments, which limits the usefulness to end users.
-Pure OpenGL, without any modificaitons or additions,  is sure to work using interception.
+Pure OpenGL, without any modifications or additions,  is sure to work using interception.
 The difficulty of using intercept methods is that they require more coding
-and tagging, and are not guarentted to work at all, and this is becoming
+and tagging, and are not guaranteed to work at all, and this is becoming
 more difficult with OpenGL 3.0+, especially when using a core OpenGL profile.
 
 %In contrast to the OpenGL intercept method, the work in this paper is for the application developer, and there is no intention to eliminate the need to write code.
 %%Rather ...?
 
 \textit{\textbf{Enhanced performance}} Near real-time update of scientific visualization metaphors is crucial in immersive environments.
-The field has seen several proposed solutions from decoupling rendering, and processing to parallel visualization~\cite{Bryson:1996, vanReimersdahl:2000}.
+The field has seen several proposed solutions from decoupling rendering, and processing to parallel visualization~\cite{Bryson:1996, van2000vista}.
 This effort stands apart from all these previous efforts, which valiant
 as they were, ultimately have been lost to time as VTK has continued to
 evolve, making it difficult for tacked-together components to remain in
 sync with the API.
 Rather, by providing rendering access from within the VTK API itself, new
-tools can rely on a stability that hasn't been available for techinques
+tools can rely on a stability that hasn't been available for techniques
 that perform functions outside the bounds of the API design, often accessing
 internal features that do not have the assurance of stability.
 As a commercially supported open-source tool, VTK's rendering performance is
