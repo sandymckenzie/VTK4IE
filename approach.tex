@@ -34,9 +34,10 @@ For instance, the \texttt{RenderWindow} typically creates the context in which
 
 % WRS: the figure could benefit by having what type of data flows between
 %   the modules (like the colors of AVS).
+%  \includegraphics[width=\linewidth, scale=0.5]{images/vtkRenderPipeline.pdf}
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=\linewidth]{images/vtkRenderPipeline.pdf}
+  \includegraphics[scale=0.5]{images/vtkRenderPipeline.pdf}
   \caption{vtkRenderWindow, vtkRenderer, vtkCamera, vtkActor, and vtkMapper interaction diagram.}
   \label{fig:vtkRenderPipeline}
 \end{figure}
@@ -113,7 +114,7 @@ This integration is straightforward because our module makes the coordinate syst
 
 This work has been merged into the VTK as of release 7.0 available at
 \url{http://www.vtk.org}.
-To enable this module when compiling VTK with CMake,
+To enable this module when compiling VTK with \texttt{CMake},
 set \texttt{Module\_vtkRenderingExternal} to \texttt{ON} (default is \texttt{OFF}).
 
 \subsection{VR Toolkit Embedding (OpenVR)}
@@ -139,57 +140,64 @@ mechanism will replace the core rendering classes (e.g.,
 
 The \texttt{vtkOpenVR} module contains the following classes as drop-in replacements in VTK.
 
-\textbf{\texttt{vtkOpenVRRenderWindow}} - This is a derived classes of the RenderWindow class.
+\textbf{\texttt{vtkOpenVRRenderWindow}} - This is a derived class of the RenderWindow class.
 The current implementation creates one renderer that covers the entire window.
 As described in the Related work section, this class (and \texttt{vtkOpenVRRenderer}) is the location for embedding the VR toolkit, and handles the bulk of interfacing to OpenVR. 
 
-\textbf{\texttt{vtkOpenVRRenderer}} - This is a derived classes of the Render class.
+\textbf{\texttt{vtkOpenVRRenderer}} - This is a derived class of the Render class.
 The \texttt{vtkOpenVRRenderer} class computes a reasonable scale and translation, and sets the results on \texttt{OpenVRCamera}.
 It also sets an appropriate default clipping range expansion.
 Again, this class (and \texttt{vtkOpenVRRenderWindow}) is the location for embedding the VR toolkit.
 
-\textbf{\texttt{vtkOpenVRCamera}} - This is a derived classes of the Camera class.\texttt{vtkOpenVRCamera} gets the matrices from OpenVR to use for rendering.
-It contains a scale and translation that are designed to map world coordinates into the head-mounted display (HMD) space.
-Accordingly, the application developer can keep world coordinates in the units that are best suited to his/her problem domain, and the camera will shift and scale the coordinates into the units that make sense for the HMD.
+\textbf{\texttt{vtkOpenVRCamera}} - This is a derived class of the Camera class. \texttt{vtkOpenVRCamera} gets the matrices from OpenVR to use for rendering.
+It contains a scale and translation that are designed to map world coordinates into the HMD space.
+Accordingly, the application developer can keep world coordinates in the units best suited to their problem domain, and the camera will shift and scale into units that make sense for the HMD.
 
 \textbf{\texttt{vtkOpenVRRenderWindowIneractor}} - VTK is designed to pick and interact based on two-degrees of freedom, desktop X and Y mouse/window coordinates.
-In contrast, OpenVR provides X, Y and Z world coordinates and W, X, Y and Z orientations.
+In contrast, OpenVR provides X, Y and Z 3D world coordinates and 3D orientations.
 The \texttt{vtkOpenVRRenderWindowInteractor} class catches controller events and converts them to mouse/window events.
-In addition, this class also stores the world coordinate positions and orientations for the styles or pickers that can utilize them.
+In addition, this class also stores the world coordinate positions for the styles or pickers that need them.
 \texttt{vtkOpenVRRenderWindowInteractor} supports multiple controllers through the standard PointerIndex approach that VTK uses for MultiTouch.
 
-\textbf{\texttt{vtkInteractorStyleOpenVR}} - In concert with the \texttt{vtkOpenVRRenderWindowInteractor} class, we derived the \texttt{vtkInteractorStyleOpenVR} class.
-The \texttt{vtkInteractorStyleOpenVR} class uses X, Y and Z world coordinate positions and W, X, Y and Z orientations to adjust \texttt{Actor}s.
+\textbf{\texttt{vtkInteractorStyleOpenVR}} - In concert with the \texttt{vtkOpenVRRenderWindowInteractor} class, we derived the \texttt{vtkInteractorStyleOpenVR} class
+to use 3D world coordinates to adjust \texttt{Actor}s.
 This class provides a common grab-and-move style of interaction that is common to OpenVR and other VR toolkits.
 
 \textbf{\texttt{vtkOpenVRPropPicker}} - Finally, the derived \texttt{vtkOpenVRPropPicker} class determines what \texttt{Actor}s or \texttt{Prop}s VTK picks.
-Note that \texttt{Prop} is an abstract superclass for any objects that can exist in a rendered scene (either 2D or 3D), and defines the API for picking, LOD manipulation, and common instance variables that control visibility, picking, and dragging.
-The \texttt{vtkOpenVRPropPicker} class uses the X, Y and Z world coordinate as the picking value as opposed to an intersecting a ray, which is slower.
+Note that \texttt{Prop} is an abstract superclass for any object that can exist in a rendered scene (either 2D or 3D), and defines the API for picking, LOD manipulation, and common instance variables that control visibility, picking, and dragging.
+The \texttt{vtkOpenVRPropPicker} class uses the 3D world coordinate as the picking value as opposed to an intersecting a ray, which is slower.
 
-These OpenVR derived classes work from within VTK to provide the seamless access cameras, lighting, interaction and the complete VTK pipeline.
+These OpenVR derived classes work from within VTK to provide seamless access to cameras, lighting, interaction and the complete VTK pipeline.
 
 \subsubsection{Enabling \texttt{vtkOpenVR}}
 
-To use \texttt{vtkOpenVR}, first download the master branch of VTK from the VTK
+To use VTK with OpenVR, first download the master branch of VTK from the VTK
 repository on GitHub (see \url{http://www.vtk.org}).
 The remote module for \texttt{vtkOpenVR} can be found at
 \url{https://goo.gl/0jem0V}. Place this file into the Remote folder of your VTK source tree.
-\texttt{vtkOpenVR} also requires that you download two external libraries: Simple DirectMedia Layer 2 (SDL2) and OpenVR.
-To enable this module, set \texttt{Module\_vtkOpenVR} to \texttt{ON} (default is \texttt{OFF}).
+You must also install two external libraries: Simple DirectMedia Layer 2 (SDL2) and OpenVR.
+To enable this module, use \texttt{CMake} to set \texttt{Module\_vtkOpenVR} to \texttt{ON} (default is \texttt{OFF}).
 Ensure you build an optimized version of VTK to maximize performance while using these new capabilities.
 
 \subsubsection{Future Developments}
 
-The \texttt{vtkOpenVR}  module is currently in the alpha phase and is currently tested on the HTC Vive virtual reality system.
+The \texttt{vtkOpenVR}  module is currently in the alpha phase and has been tested on the HTC Vive HMD.
 Moving forward, we look to add support for the OpenVR overlay, which provides support for user interface components.
-We also aim to make the module faster and include more event interactions. 
+We also expect to make the module faster and include more event interactions. 
 
 \subsection{Performance enhancements}
 
 VTK is one of the most commonly used libraries for visualization and computing in the scientific community.
 Primarily written in C++, VTK provides classical and model visualization algorithms to visualize structured, unstructured, and point data sets on desktop, mobile, and web environments.
-The open source, community driven VTK provides state-of-the-art implementations that are accessible via an API call.
-The benefit in using VTK comes from the fact that having the latest algorithm implementation simply requires using the existing implementation in VTK or contributing the it to VTK.
+VTK provides state-of-the-art implementations accessible via an API call.
+The benefit in using VTK comes from the fact that having the latest algorithm implementation simply requires using the existing implementation from the
+open source, community driven VTK repository or contributing one.
+
+To allow VTK to function at levels needed for head-tracked rendering,
+many other enhancements have been added to the overall VTK system:
+using modern OpenGL,
+rendering transparencies with dual-depth peeling, and
+expanding the use of multi-threading.
 
 \subsubsection{OpenGL 3.2+}
 
@@ -200,12 +208,12 @@ collectively called ``OpenGL2".
 This work aims to support rendering on modern graphics cards~\cite{Hanwell:2015}.
 
 The results have been nothing short of spectacular.
-Polygon rendering demonstrates a ten times speedup for first frame rendering followed by a two-hundred times speed up for subsequent frames for one to thirty million triangles.
-The previous volume rendering was also graphics processing unit (GPU) aware, and, thus, the improvement is a modest but substantial two times speedup. 
+Polygon rendering demonstrates a ten fold speedup for first frame rendering followed by a two-hundred fold speed up for subsequent frames for one to thirty million triangles.
+The previous volume rendering was also graphics processing unit (GPU) aware, and, thus, the improvement is a modest but substantial two fold speedup. 
 
-To realize these performance enhancements, VTK depends on an OpenGL 3.2+ context, which is available on fairly low end modern GPUs.
-However, for those application developers using the X11 window system on a Mac OSX system, xQuartz does not provide a suitable OpenGL context currently.
-But, as xQuatrz utilizes newer versions of Mesa going forward, we expect future versions will eventually fill the OpenGL2 requirements.
+To realize these performance enhancements, VTK now uses an OpenGL 3.2+ context, which is available on fairly low end modern GPUs.
+However, for those application developers using the X11 window system on a Mac OSX system, xQuartz does not currently provide a suitable OpenGL context.
+But, as xQuatrz utilizes newer versions of Mesa going forward, we expect future versions will eventually meet the OpenGL2 requirements.
 
 \subsubsection{Dual-Depth Peeling}
 
@@ -213,7 +221,7 @@ As we developed several example programs leveraging the \texttt{vtkRenderingExte
 
 In OpenGL, polygons are broken up into fragments through the rasterization process.
 Each fragment corresponds to a pixel.
-An OpenGL fragment shader is a customizable program that determines the color of a fragment where all fragments for a single pixel are blended by OpenGL to determine the final color of the pixel.
+An OpenGL fragment shader is a customizable program that determines the color of a fragment where all fragments for a single pixel are blended to determine the final color of the pixel.
 Composing multiple translucent fragments into a single pixel must be done carefully.
 There are three common strategies to this composition:
 
@@ -226,7 +234,7 @@ There are three common strategies to this composition:
 \end{compactitem}
 
 VTK by default uses depth peeling.
-To enhance rendering performance with transparancy we implemented \texttt{vtkDualDepthPeelingPass}, which was originally proposed by nVidia in 2008~\cite{Bavoil:2008}.
+To enhance rendering performance with transparency we implemented \texttt{vtkDualDepthPeelingPass}, which was originally proposed by nVidia in 2008~\cite{Bavoil:2008}.
 Dual-depth peeling extends traditional depth peeling by extracting two layers of fragments per-pass: from the front and back simultaneously.
 Uses a two-component depth buffer to track of peel information and three types of geometry passes:
 
@@ -237,13 +245,15 @@ Uses a two-component depth buffer to track of peel information and three types o
 \item \textbf{AlphaBlending} - An optional pass to clean up unpeeled fragments and used with occlusion thresholds.
 \end{compactitem}
 
-This algorithm provides a two times speedup for compositing in the appearance of transparent geometry.
+This algorithm provides a two fold speedup for compositing in the appearance of transparent geometry.
 
 \subsubsection{vtkSMPTools}
 
 The field of parallel computing is advancing rapidly due to innovations in GPU and multicore technologies.
-The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing which under the hood uses different libraries such as TBB, OpenMP and X-Kaapi.
+The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing which, under the hood, uses different libraries such as TBB, OpenMP and X-Kaapi.
+% WRS: for camera-ready we probably should have citations for those products.
 The typical target application is coarse-grained shared-memory computing as provided by mainstream multicore, threaded CPUs such as Intel's i5 and i7 architectures.
 
 For several of the example programs utilizing the \texttt{vtkRenderingExternal} module, we leveraged a new contouring algorithm in VTK that is readily parallelizable using \texttt{vtkSMPTools} and still incredibly efficient in serial mode, called \texttt{vtkFlyingEdges2D} and \texttt{vtkFlyingEdges3D}.
 While the OpenGL2 group improves rendering performance, \texttt{vtkSMPTools} can be used to enhance the geometry generation performance for scientific visualization.
+
