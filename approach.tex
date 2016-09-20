@@ -12,11 +12,11 @@ In the implementation sub-section, we provide in-depth details of features we im
 
 Traditionally, VTK creates and manages its own OpenGL context and the data objects within the scene.
 The objective of this work is to bring the high-quality scientific visualization computing and rendering capabilities of VTK to virtual reality environments in a way that is easier to develop and maintain.
-By bringing VTK into virtual environments created by domain-specific tools such as GLUT, VRUI, and FreeVR, we are providing the tools necessary to build interactive, 3D scientific visualizations to the developers of the virtual reality community.
+By bringing VTK into virtual environments created by interface-specific tools such as GLUT, VRUI, and FreeVR, we are providing the tools necessary to build interactive, 3D scientific visualizations to the developers of the virtual reality community.
 
 \subsubsection{Architecture}
 
-Integrating VTK in external rendering systems required overriding some of the behavior of the \texttt{vtkRenderWindow}, \texttt{vtkRenderer}, and \texttt{vtkCamera} classes.
+Integrating VTK into external rendering systems required overriding some of the behavior of the \texttt{vtkRenderWindow}, \texttt{vtkRenderer}, and \texttt{vtkCamera} classes.
 A \texttt{Renderer} is attached to a \texttt{RenderWindow}, a \texttt{Mapper} to an \texttt{Actor}, and a \texttt{Camera} to a \texttt{Renderer}.
 In a typical VTK application the \texttt{RenderWindow} class is responsible for creating a rendering context, and defining width and height of the visualization viewport.
 The \texttt{Renderer} class is responsible for rendering one-or-more
@@ -25,13 +25,15 @@ The \texttt{Actor} class is a drawable entity, which uses a \texttt{Mapper} to r
 Figure \ref{fig:vtkRenderPipeline} shows the classes and interactions between them.
 
 Each of these components has its corresponding derived classes that implement the API using OpenGL, VTK's underlying graphics API.
-Using OpenGL provides VTK with the ability to use hardware acceleration that ultimately leads to better visualizations and near real-time performance as required by many interactive applications including ones that are designed for immersive environments.
-Thus, each component of VTK participates in a specific way and communicates with other components via the public API.
+Using OpenGL provides VTK with the ability to use hardware acceleration that ultimately leads to better visualizations and near real-time performance as required by many interactive applications especially ones that are designed for immersive environments.
+Each component of VTK participates in a specific way and communicates with other components via the public API.
 For instance, the \texttt{RenderWindow} typically creates the context in which
 \texttt{Renderer} draws drawable entities, i.e. \texttt{Actor}s.
 %A \texttt{RenderWindow} can have one or more \texttt{Renderer}s.
 %Each \texttt{Renderer} can make a decision on whether or not it should reset the buffers such as color or depth to its initial state while rendering one-or-more actors. 
 
+% WRS: the figure could benefit by having what type of data flows between
+%   the modules (like the colors of AVS).
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\linewidth]{images/vtkRenderPipeline.pdf}
@@ -40,6 +42,7 @@ For instance, the \texttt{RenderWindow} typically creates the context in which
 \end{figure}
 
 Since \texttt{vtkRenderWindow} typically creates the context, and \texttt{vtkRenderer} controls objects of a scene in a given viewport, the rendering pipeline is constructed with properties and other attributes set specifically to support this most general use case.
+% WRS: (above sentence) controls how?
 However, in the case of external environments, the context is created outside of VTK, and non-VTK graphical elements (such as the GUI) may be rendered before or after the VTK rendering.
 In addition, the environment may render its own visualization objects in the same context.
 To handle this situation, we have introduced a new module in VTK called \texttt{vtkRenderingExternal} that comprises four new classes: \texttt{vtkExternalOpenGLRenderWindow}, \texttt{vtkExternalOpenGLRenderer}, \texttt{vtkExternalOpenGLCamera} and \texttt{ExternalVTKWidget}. 
@@ -79,7 +82,7 @@ One of the most important prerequisites of this work was seamless stereo renderi
 
 \textbf{\textit{Stereo Rendering}} The OpenGL context maintains the state machine in which OpenGL commands change the state of the system or query a particular state as needed.
 To support stereo, we utilized the OpenGL context, set by the VR toolkit, to determine the type of stereo (Quad Buffer, Side-by Side, or Top-Bottom stereo) and simply render using the OpenGL context, which sets active buffer, stenciling, etc.
-This is set only once immediately after the context has been created and is maintained by the VR toolkit over time. 
+This is set only once, immediately after the context has been created, and is maintained by the VR toolkit over time. 
 
 \textbf{\textit{2D and 3D Interface Widgets}} In most cases, VTK elements will not be the only objects in a scene.
 There will probably be some GUI elements that will also be rendered in addition to the VTK elements.
@@ -92,18 +95,19 @@ VTK has its own classes and methods for interaction and scene object manipulatio
 To synchronize the navigation in these two systems, the \texttt{vtkExternalOpenGLCamera} class has been added.
 This class empowers the external application to manage camera interaction for VTK objects.
 We added a GL query in the external renderer, which uses the GL state system to get the projection and modelview transformation matrices.
-These two matrices determine the position and orientation of the user eye /
-camera in the scene.
+These two matrices determine the location and orientation of the user's eye
+(camera) in the scene.
 The \texttt{vtkExternalOpenGLRenderer} sets these matrices on the \texttt{vtkExternalOpenGLCamera}.
 Setting these matrices directly on the camera leaves the camera parameters such as position, focal point, and view up direction to incorrect values, Therefore, we compute appropriate viewing coordinates for the camera by multiplying the modelview matrix with the camera initial default position in the OpenGL coordinate system. 
-\wrs{which is particularly important for lighting ...}
+%\wrs{which is particularly important for lighting ...}
 Once, everything is set on the camera, the navigation and lighting works as expected by the user.
 
 The application itself handles the secondary kind of interactions such as interactive slicing and clipping of the scientific datasets.
 VTK provides classes (filters) to perform thresholding, clipping, slicing, etc.
-These filters take parameters such as thresholding value, slicing position and normal, and clip position. 
-In our implementation, the application receives the tracker data (6 DOF), and, based on the mode of the application, uses this information to set appropriate values on a specific filter.
-This integration is straightforward as our module makes the coordinate system consistent between the two rendering systems.
+These filters take parameters such as thresholding value, slicing position, and clip position. 
+In our implementation, the application receives the 6-DOF tracker position data, and, based on the mode of the application, uses this information to set appropriate values on a specific filter.
+For example, the left hand controller might be used to position the clipping plane.
+This integration is straightforward because our module makes the coordinate system consistent between the two rendering systems.
 
 \subsubsection{Enabling \texttt{vtkRenderingExternal}}
 
@@ -114,10 +118,21 @@ set \texttt{Module\_vtkRenderingExternal} to \texttt{ON} (default is \texttt{OFF
 
 \subsection{VR Toolkit Embedding (OpenVR)}
 
+The potential VR user base has grown profusely with the emerging
+proliferation of consumer-level HMD VR displays along with their associated
+software ecosystems, such as Valve's SteamVR.
+For developers who are willing to specifically target this audience, perhaps
+excluding users of CAVE-style VR displays, a simpler VTK-VR alternative is
+also available.
+The trade-off | for developers who don't already have expertise in a
+full-fledged VR integration library | is avoiding the programming of
+the alternative VR integration library, and immediately gaining access
+to HMDs compatible with OpenVR, but not to other VR display systems.
+
 To make it possible to use OpenVR-compatible devices with VTK, we embedded OpenVR into VTK within a module, called \texttt{vtkOpenVR}.
 Our goal is to allow VTK programs to use the OpenVR library with few changes, if any.
 If you link your executable to the \texttt{vtkOpenVR} module, the object factory
-mechanism should replace the core rendering classes (e.g.,
+mechanism will replace the core rendering classes (e.g.,
 \texttt{vtkRenderWindow} and \texttt{vtkRenderer}) with the OpenVR-specialized versions in VTK. 
 
 \subsubsection{Implementation}
