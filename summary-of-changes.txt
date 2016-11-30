@@ -1,0 +1,85 @@
+   1. Add a paragraph in the related work, on how your proposed modules
+   stand in contrast or supplements the following pieces of recent work:
+
+   a. Moreland, K., Sewell, C., Usher, W., Lo, L. T., Meredith, J., Pugmire,
+   D., ... & Larsen, M. (2016). VTK-m: Accelerating the Visualization
+   Toolkit for Massively Threaded Architectures. IEEE Computer Graphics and
+   Applications, 36(3), 48-58.
+
+   b. Reda, K., Knoll, A., Nomura, K. I., Papka, M. E., Johnson, A. E., &
+   Leigh, J. (2013, October). Visualizing large-scale atomistic simulations
+   in ultra-resolution immersive environments. In LDAV (pp. 59-65).
+
+   c. Hanwell, M. D., Martin, K. M., Chaudhary, A., & Avila, L. S. (2015).
+   The Visualization Toolkit (VTK): Rewriting the rendering code for modern
+   graphics cards. SoftwareX, 1, 9-12.
+
+   2. Remove all informal references to colloquial phrases such as \"bread
+   and butter\" and \"under the hood\", and revise the language overall with
+   a scholarly audience in mind. Correct all in-text references in place of
+   all the \"?\" all through the manuscript. A general guideline is to save
+   the final day to give a full proof-read through the penultimate pdf, and
+   correct any obvious errors before re-submission.
+
+   3. In section 4.2.2, add more specifics to contrast your implementation
+   to VRUI's 3D visualizer, and also to the Toirt Samhlaigh, explaining
+   which is better in terms of ease of use and implementation, at basic and
+   advanced levels of volume rendering, and why?
+
+From Reviewer 3 -
+
+  Also, in the first line of 3.1.2, explain what is meant by “the two
+   rendering systems”.
+
+From Reviewer 2
+
+Related Work (Missing citations)
+
+   Kuchera-Morin, JoAnn, et al. "Immersive full-surround multi-user system
+   design." Computers & Graphics 40 (2014): 10-21.
+
+   Amatriain, Xavier, et al. "The Allosphere: Immersive multimedia for
+   scientific discovery and artistic exploration." IEEE MultiMedia 16.2
+   (2009): 0064-75.
+
+   Febretti, Alessandro, et al. "Omegalib: A multi-view application
+   framework for hybrid reality display environments." IEEE Virtual Reality
+   (VR). IEEE, 2014.
+
+   Marai, G. Elisabeta, Angus G. Forbes, and Andrew Johnson.
+   "Interdisciplinary Immersive Analytics at the Electronic Visualization
+   Laboratory: Lessons Learned and Upcoming Challenges." IEEE VR Workshop on
+   Immersive Analytics. IEEE, 2016.
+
+   Reda, Khairi, et al. "Visualizing large, heterogeneous data in
+   hybrid-reality environments." IEEE Computer Graphics and Applications
+   33.4 (2013): 38-48.
+
+   https://github.com/AlloSphere-Research-Group/AlloSystem
+
+   https://github.com/uic-evl/omegalib
+
+
+Overall Rating of the Submission
+
+   1  (Definitely reject)
+
+Justification of Recommendation
+
+   It wasn't clear to me exactly what the contributions were. Other similar
+   projects have been created in VR labs, such as UCSB's AlloSystem and
+   UIC's OmegaLib, both of which enable the use of VTK in collaborative, VR
+   environments, as well as on portable HMDs. The authors focused on the
+   simpler task of showing that their system worked in simple
+   configurations, but I would have been more interested in hearing how the
+   authors dealt with the complexities and/or minutia of specific
+   environments. For instance, in systems with many screens,
+   sharing+synchronizing GPUs +GL contexts needs to be handled, and in
+   curved environments, blending of contexts is quite difficult, etc. Even
+   the proposed advantages of this system seem a bit dated. OIT and
+   depth-peeling is nice, but not exactly novel, and although the system
+   includes a GL 3.2+ rendering pipeline, there is nothing in the paper that
+   explores GL 4.0 through 4.5 features, which could greatly enhance scivis
+   tasks. The inclusion of Vrui also seems useful, but again, there's
+   nothing particularly novel about this as many VR frameworks (including
+   ones that support VTK functionality) have similar UIs.
