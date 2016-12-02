@@ -1,7 +1,7 @@
 \section{Related Work}
 
-The use of scientific visualization in immersive environments is simply natural, like bread and butter, while tactically important for scientific discovery, product design and data analysis.
-There are several high quality scientific visualization virtual reality applications created from scratch using OpenGL directly~\cite{Billen:2008, LaViola:2007, Schulze:2001, Rantzau:1998}.
+The use of scientific visualization in immersive environments is simply natural, while tactically important for scientific discovery, product design and data analysis.
+There are several high quality scientific visualization virtual reality applications created from scratch using OpenGL directly~\cite{Billen:2008, LaViola:2007, Schulze:2001, Rantzau:1998} including the stunning GPU accelerated hybrid volume and glyph approach for molecular dynamics visualization in the CAVE2 by Reda et al~\cite{Reda:2013}.
 These are certainly exemplary and valuable applications.
 However, when building immersive applications, much like desktop applications, with scientific requirements, it is often more efficient to leverage the open source visualization toolkit (VTK)~\cite{Schroeder:2004}.
 
@@ -104,10 +104,9 @@ continually being advanced.
 VTK has been around since 1993 with over one hundred thousand repository commits from over two-hundred and fifty contributors.
 Having the latest algorithm implementation requires using the existing implementation in VTK or contributing the algorithm to VTK.
 
-We present internal enhancements to VTK that significantly impact immersive
-environment application development.
-These enhancements include the new default OpenGL 3.2+ pipeline,
-dual depth peeling for transparency, and symmetric multiprocessing (SMP)
-tools and algorithms.
+We present recent enhancements to VTK that significantly impact immersive
+environment application development. The OpenGL 3.2+ pipeline, described in Hanwell et al~\cite{Hanwell:2015}, provides the most dramatic improvement in performance. We have supplemented this work with Bavoil and Myers dual depth peeling~\cite{Bavoil:2008} and symmetric multiprocessing (SMP) tools and algorithms to address the performance issues for transparent geometry and computationally intense algorithms (e.g. isosurfaces).
+
+Finally, our work will eventually allow application developers to leverage portable threaded data parallel algorithms capable of running on next generation hardware from VTK-m~\cite{Moreland:2016}. VTK-m has shown impressive results in its first two years of development, and, as the number of filters available in VTK-m's repository grows, the plan is to make them available in the next major release of VTK. Thus, if VTK-m is contained in VTK, then applications developed using the integrations described in this paper can use it.
 
 
