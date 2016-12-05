@@ -65,6 +65,16 @@ Figure~\ref{fig:volume} depicts our implementation of a transfer function editor
 
 Widgets such as Isosurfaces, Contours, Slice provide VTK-level operations that can be carried out on the dataset. To circumvent possible interaction problems when dealing with large datasets, a low resolution mode is provided that down-samples the dataset. This lets the end-user fulfill actions quickly that would otherwise take more time on the full dataset, and then revert back to the full size when ready to visualize the complete dataset.
 
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=3.5in]{images/CAVEVolumeViz.jpg}
+ \caption{This is a CAVE rendering of anuerism data. }
+ \label{fig:CAVEVolumeViz}
+\end{figure}
+
+Figure~\ref{fig:CAVEVolumeViz} shows the VruiVTK Volume Viewer utilized for use seamlessly in a CAVE environment. This data shows a researcher analyzing anuerism data with the transfer function editor and slices.
+
 \subsubsection{MooseViewer}
 
 \begin{figure}[h!]
