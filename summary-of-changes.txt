@@ -6,17 +6,29 @@
    Toolkit for Massively Threaded Architectures. IEEE Computer Graphics and
    Applications, 36(3), 48-58.
 
+At the end of the related work, we have added a new paragraph introducing VTK-m and the roadmap for including VTK-m filters in VTK for use in immersive application development.
+
    b. Reda, K., Knoll, A., Nomura, K. I., Papka, M. E., Johnson, A. E., &
    Leigh, J. (2013, October). Visualizing large-scale atomistic simulations
    in ultra-resolution immersive environments. In LDAV (pp. 59-65).
+
+We added this citation to introductory paragraph of the related work section where we discussed exemplary scientific visualization virtual reality applications created from scratch using OpenGL.
 
    c. Hanwell, M. D., Martin, K. M., Chaudhary, A., & Avila, L. S. (2015).
    The Visualization Toolkit (VTK): Rewriting the rendering code for modern
    graphics cards. SoftwareX, 1, 9-12.
 
+In the second to last paragraph of the related work section, we highlighted the new OpenGl 3.2+ pipeline by Hanwell et al and described how we supplemented this work.
+
    2. Remove all informal references to colloquial phrases such as \"bread
    and butter\" and \"under the hood\", and revise the language overall with
-   a scholarly audience in mind. Correct all in-text references in place of
+   a scholarly audience in mind. 
+
+We have edited the entire paper and removed colloquial phrases.
+“bread and butter” from 2 Related work section
+“under the hood” from 3.3.3 vtkSMPTools
+
+   Correct all in-text references in place of
    all the \"?\" all through the manuscript. A general guideline is to save
    the final day to give a full proof-read through the penultimate pdf, and
    correct any obvious errors before re-submission.
@@ -37,6 +49,8 @@ Related Work (Missing citations)
 
    Kuchera-Morin, JoAnn, et al. "Immersive full-surround multi-user system
    design." Computers & Graphics 40 (2014): 10-21.
+
+We selected the Amatriain, Xavier, et al. to cover the Allosphere.
 
    Amatriain, Xavier, et al. "The Allosphere: Immersive multimedia for
    scientific discovery and artistic exploration." IEEE MultiMedia 16.2
@@ -59,7 +73,6 @@ Related Work (Missing citations)
 
    https://github.com/uic-evl/omegalib
 
-
 Overall Rating of the Submission
 
    1  (Definitely reject)
@@ -69,17 +82,31 @@ Justification of Recommendation
    It wasn't clear to me exactly what the contributions were. Other similar
    projects have been created in VR labs, such as UCSB's AlloSystem and
    UIC's OmegaLib, both of which enable the use of VTK in collaborative, VR
-   environments, as well as on portable HMDs. The authors focused on the
+   environments, as well as on portable HMDs.
+
+We have said that this has been done in the past in an ad hoc unmaintainable manner. We have added a citation to OmegaLib that relies on a plugin for VTK 5.10 (with an unfinished patch for VTK 6.1), and highlighted AlloSphere, which uses one of this papers VR environment VTK integrations (vtkRenderingExternal) as of Fall 2016.
+
+   The authors focused on the
    simpler task of showing that their system worked in simple
    configurations, but I would have been more interested in hearing how the
    authors dealt with the complexities and/or minutia of specific
    environments. For instance, in systems with many screens,
    sharing+synchronizing GPUs +GL contexts needs to be handled, and in
-   curved environments, blending of contexts is quite difficult, etc. Even
+   curved environments, blending of contexts is quite difficult, etc. 
+
+This is done by the VR environment software the application developer chooses to work with (e.g. FreeVR, Vrui, VRJuggler, …).
+
+   Even
    the proposed advantages of this system seem a bit dated. OIT and
    depth-peeling is nice, but not exactly novel, and although the system
    includes a GL 3.2+ rendering pipeline, there is nothing in the paper that
    explores GL 4.0 through 4.5 features, which could greatly enhance scivis
-   tasks. The inclusion of Vrui also seems useful, but again, there's
+   tasks. 
+
+In the recent past, perhaps the present for the VR community, when creating vr scientific visualization applications VTK may not have been a choice based on performance. We are updating the community on new and upcoming enhancements. VTK aims at supporting scientific visualization from mobile clients to immersive environments and compromises are often made.
+
+   The inclusion of Vrui also seems useful, but again, there's
    nothing particularly novel about this as many VR frameworks (including
    ones that support VTK functionality) have similar UIs.
+
+The VR environment VTK integration should work for all OpenGL or OpenVR environments. We created GLUT, FreeVR and Virus applications, but personally enjoy developing in Vrui.
