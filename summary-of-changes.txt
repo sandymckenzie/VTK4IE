@@ -33,10 +33,20 @@ We have edited the entire paper and removed colloquial phrases.
    the final day to give a full proof-read through the penultimate pdf, and
    correct any obvious errors before re-submission.
 
+We have ran bibles and searched for “?” marks indicating missing citations and resolved those that were found.
+
    3. In section 4.2.2, add more specifics to contrast your implementation
    to VRUI's 3D visualizer, and also to the Toirt Samhlaigh, explaining
    which is better in terms of ease of use and implementation, at basic and
    advanced levels of volume rendering, and why?
+
+We added comparisons with other solutions for each of the examples.
+
+GeometryViewer - This example has the functionality contained in the integration between Vrui and Delta3D presented in Sherman et al.[Sherman:2010]. Both applications were simple to develop, but GeometryViewer's  performance is faster especially when rendering transparent geometry. And GeometryViewer integrates the lighting between the VR toolkit and VTK in contrast to the Vrui/Delta3D integration, which requires modification the material textures to provide false lighting.
+
+VolumeViewer - Immersive volume visualization applications are fundamental for a number of scientific research domains, and it's not surprising that there exists a number of partial solutions in the public domain. VolumeViewer has similar features contained in both 3D Visualizer[Billen:2008] and Toirt Samhlaigh[O’Leary:2008]. Both applications used complex, from scratch, OpenGL algorithms that were time consuming to develop. Visualizer uses a standard GPU GLSL shader-based raycasting algorithm. While Toirt uses a octree-based space skipping, GPU GLSL shader-based view-aligned algorithm to provide higher performance on larger volumes. In contrast, VolumeViewer required less than a hundred lines of VTK api to implement roughly the same GPU GLSL shader-based raycasting used in Visualizer. VolumeViewer's performance is equal to or exceeds the other tools. In addition, by modifying a line or two of VolumeViewer's code, it can accept data from any of the hundred plus supported scientific data formats a feat that would require the implementation of readers, data structures and algorithms in either of the other two applications.
+
+MooseViewer - Like 3D Visualizer[Billen:2008], MooseViewer provides a number of scientific visualization techniques for simulation data, but MooseViewer was created in weeks with enhancements added by simply plugging in alternative VTK algorithms to enhance/scale performance.  Although focused on the ExodusII file format, accepting data from other scientific data formats in MooseViewer is a simple task. MooseViewer out performs Visualizer using VTK OpenGL 3.2+ rendering pipeline, but pure rendering performance fails to highlight Visualizer's unique immersive specific level-of-detail algorithms. 3DVisualizer is a fantastic immersive application, and, if an end-user has data in one of its accepted formats, we encourage end-users to leverage some of its unique features.
 
 From Reviewer 3 -
 

@@ -47,8 +47,9 @@ The \textit{Rendering Options} sub-menu allows the end-user to change the opacit
 In addition to VTK level modifications, the application has support for OpenGL level widgets (e.g. \texttt{glClipPlane}).
 This shows that native OpenGL operations can also be interactively performed when using the VTK rendering pipeline.
 
-In Figure~\ref{fig:vessel}, we show Vrui's user interface (UI) showing rendering options dialog allowing us to adjust the transparency of the ATR reactor core.
-In addition, we used Vrui's UI to build an interface for the lighting color.
+In Figure~\ref{fig:vessel}, we show Vrui's user interface (UI) showing rendering options dialog allowing us to adjust the transparency of the ATR reactor core. In addition, we used Vrui's UI to build an interface for the lighting color that seamlessly maps between Vrui and VTK.
+
+This example has the functionality contained in the integration between Vrui and Delta3D presented in Sherman et al.~\cite{Sherman:2010}. Both applications were simple to develop, but GeometryViewer's  performance is faster especially when rendering transparent geometry. And GeometryViewer integrates the lighting between the VR toolkit and VTK in contrast to the Vrui/Delta3D integration, which requires modification the material textures to provide false lighting.
 
 \subsubsection{VolumeViewer}
 
@@ -65,7 +66,7 @@ Figure~\ref{fig:volume} depicts our implementation of a transfer function editor
 
 Widgets such as Isosurfaces, Contours, Slice provide VTK-level operations that can be carried out on the dataset. To circumvent possible interaction problems when dealing with large datasets, a low resolution mode is provided that down-samples the dataset. This lets the end-user fulfill actions quickly that would otherwise take more time on the full dataset, and then revert back to the full size when ready to visualize the complete dataset.
 
-Figure~\ref{fig:CAVEVolumeViz} shows the VruiVTK Volume Viewer utilized for use seamlessly in a CAVE environment. This data shows a researcher analyzing anuerism data with the transfer function editor and slices.
+Immersive volume visualization applications are fundamental for a number of scientific research domains, and it's not surprising that there exists a number of partial solutions in the public domain. VolumeViewer has similar features contained in both 3D Visualizer~\cite{Billen:2008} and Toirt Samhlaigh~\cite{O'Leary:2008}. Both applications used complex, from scratch, OpenGL algorithms that were time consuming to develop. Visualizer uses a standard GPU GLSL shader-based raycasting algorithm. While Toirt uses a octree-based space skipping, GPU GLSL shader-based view-aligned algorithm to provide higher performance on larger volumes. In contrast, VolumeViewer required less than a hundred lines of VTK api to implement roughly the same GPU GLSL shader-based raycasting used in Visualizer. VolumeViewer's performance is equal to or exceeds the other tools. In addition, by modifying a line or two of VolumeViewer's code, it can accept data from any of the hundred plus supported scientific data formats a feat that would require the implementation of readers, data structures and algorithms in either of the other two applications.
 
 \subsubsection{MooseViewer}
 
@@ -81,6 +82,8 @@ An interesting feature of the application is animation of the dataset over time.
 The "\textit{Animation Dialog}" helps play through the time steps with controls for looping and stepping through the time steps.
 
 We see, in Figure~\ref{fig:fuelpin}, surface geometry colored by the selected temperature attribute animated using the "\textit{Animation Dialog}".
+
+Like 3D Visualizer~\cite{Billen:2008}, MooseViewer provides a number of scientific visualization techniques for simulation data, but MooseViewer was created in weeks with enhancements added by simply plugging in alternative VTK algorithms to enhance/scale performance.  Although focused on the ExodusII file format, accepting data from other scientific data formats in MooseViewer is a simple task. MooseViewer out performs Visualizer using VTK OpenGL 3.2+ rendering pipeline, but pure rendering performance fails to highlight Visualizer's unique immersive specific level-of-detail algorithms. 3DVisualizer is a fantastic immersive application, and, if an end-user has data in one of its accepted formats, we encourage end-users to leverage some of its unique features.
 
 \begin{figure}[h!]
   \centering
