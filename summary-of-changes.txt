@@ -50,28 +50,34 @@ Related Work (Missing citations)
    Kuchera-Morin, JoAnn, et al. "Immersive full-surround multi-user system
    design." Computers & Graphics 40 (2014): 10-21.
 
-We selected the Amatriain, Xavier, et al. to cover the Allosphere.
+We viewed this paper as hardware centric and decided to select the Amatriain, Xavier, et al. to cover the prior work of Allosphere and VTK.
 
    Amatriain, Xavier, et al. "The Allosphere: Immersive multimedia for
    scientific discovery and artistic exploration." IEEE MultiMedia 16.2
    (2009): 0064-75.
 
+Citation added to the OpenGL context sharing subsection of the related work. Please note that as of October 2016 AlloSystem uses our vtkRenderingExternal VTK module presented in this paper.
+
    Febretti, Alessandro, et al. "Omegalib: A multi-view application
    framework for hybrid reality display environments." IEEE Virtual Reality
    (VR). IEEE, 2014.
+
+Citation added to the OpenGL context sharing subsection of the related work.
 
    Marai, G. Elisabeta, Angus G. Forbes, and Andrew Johnson.
    "Interdisciplinary Immersive Analytics at the Electronic Visualization
    Laboratory: Lessons Learned and Upcoming Challenges." IEEE VR Workshop on
    Immersive Analytics. IEEE, 2016.
 
+Citation added to the introductory section highlighting successful projects exploring scientific data using immersive interfaces.
+
    Reda, Khairi, et al. "Visualizing large, heterogeneous data in
    hybrid-reality environments." IEEE Computer Graphics and Applications
    33.4 (2013): 38-48.
 
-   https://github.com/AlloSphere-Research-Group/AlloSystem
+This paper is broader than the one highlighted for inclusion Reda et al paper in the meta review. In this paper they do use the OmegaLib VTK plugin to show a lake’s bathysphere. We added this citation to introductory paragraph with the LDAV molecular dynamics visualization paper of the related work section where we discussed exemplary scientific visualization virtual reality applications created from scratch using OpenGL.We added the OmegaLib paper to the OpenGL context sharing subsection of the related work.
 
-   https://github.com/uic-evl/omegalib
+Rebuttal (We’ll remove this before we submit)
 
 Overall Rating of the Submission
 

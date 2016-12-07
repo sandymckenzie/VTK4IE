@@ -1,7 +1,7 @@
 \section{Related Work}
 
 The use of scientific visualization in immersive environments is simply natural, while tactically important for scientific discovery, product design and data analysis.
-There are several high quality scientific visualization virtual reality applications created from scratch using OpenGL directly~\cite{Billen:2008, LaViola:2007, Schulze:2001, Rantzau:1998} including the stunning GPU accelerated hybrid volume and glyph approach for molecular dynamics visualization in the CAVE2 by Reda et al~\cite{Reda:2013}.
+There are several high quality scientific visualization virtual reality applications created from scratch using OpenGL directly~\cite{Billen:2008, LaViola:2007, Schulze:2001, Rantzau:1998} including the stunning GPU accelerated hybrid volume and glyph approach for molecular dynamics and other visualizations in the CAVE2~\cite{Reda:2013, Reda:2013a}.
 These are certainly exemplary and valuable applications.
 However, when building immersive applications, much like desktop applications, with scientific requirements, it is often more efficient to leverage the open source visualization toolkit (VTK)~\cite{Schroeder:2004}.
 
@@ -43,16 +43,16 @@ The application developer would simply like to share the OpenGL context from the
 
 In previous work, by Sherman et al.~\cite{Sherman:2010} and others, Delta3D
 and OpenSceneGraph were quickly modified to instead use windows and associated
-OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.
+OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.  OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements it's own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had a OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
 % in final paper can mention FreeVR.
 These solutions are generally limited in their integration.
 Specifically, a rendering library that is unaware of the actual
 viewing matrix will generally not calculate lighting correctly, and
-picking input operations do not conform to the shifted rendering.
+picking input operations do not conform to the shifted rendering. And as the VTK application programming interface (API) adapts and adds enhancements in time, these implementations are locked into to older versions of VTK.
 
 Our \texttt{vtkRenderingExternal} VTK module formalizes this integration providing lights, interaction and picking connectivity lacking in other implementations, while allowing the application developer complete access to the VTK pipeline.
 
-\textbf{\textit{VR Toolkit embedding}} A similarly time-proven approach is based on the modification of the VTK renderer and render window~\cite{van2000vista, Hannema:2001, Shamonin02vtkcave, Belleman:2003}.
+\textbf{\textit{VR Toolkit embedding}} A similarly time-proven approach is based on the modification of the VTK renderer and render window~\cite{van2000vista, Hannema:2001, Shamonin02vtkcave, Belleman:2003}. 
 To render in an immersive environment, derived classes of the
 \texttt{vtkRenderer} and \texttt{vtkRenderWindow} are created, which depends on fundamental calls to the VR toolkit.
 Thus, VTK-based applications can simply exchange these two items to run on the desktop or immersive environment.
