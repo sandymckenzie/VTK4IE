@@ -32,9 +32,6 @@ For instance, the \texttt{RenderWindow} typically creates the context in which
 %A \texttt{RenderWindow} can have one or more \texttt{Renderer}s.
 %Each \texttt{Renderer} can make a decision on whether or not it should reset the buffers such as color or depth to its initial state while rendering one-or-more actors. 
 
-% WRS: the figure could benefit by having what type of data flows between
-%   the modules (like the colors of AVS).
-%  \includegraphics[width=\linewidth, scale=0.5]{images/vtkRenderPipeline.pdf}
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.5]{images/vtkRenderPipeline.pdf}
@@ -42,8 +39,7 @@ For instance, the \texttt{RenderWindow} typically creates the context in which
   \label{fig:vtkRenderPipeline}
 \end{figure}
 
-Since \texttt{vtkRenderWindow} typically creates the context, and \texttt{vtkRenderer} controls objects of a scene in a given viewport, the rendering pipeline is constructed with properties and other attributes set specifically to support this most general use case.
-% WRS: (above sentence) controls how?
+Since \texttt{vtkRenderWindow} typically creates the context, and \texttt{vtkRenderer} controls the rendering of individual objects in a scene of a given viewport, the rendering pipeline is constructed with properties and other attributes set specifically to support this most general use case.
 However, in the case of external environments, the context is created outside of VTK, and non-VTK graphical elements (such as the GUI) may be rendered before or after the VTK rendering.
 In addition, the environment may render its own visualization objects in the same context.
 To handle this situation, we have introduced a new module in VTK called \texttt{vtkRenderingExternal} that comprises four new classes: \texttt{vtkExternalOpenGLRenderWindow}, \texttt{vtkExternalOpenGLRenderer}, \texttt{vtkExternalOpenGLCamera} and \texttt{ExternalVTKWidget}. 
@@ -79,7 +75,7 @@ provided to it from the external library / application.
 
 \subsubsection{Implementation}
 
-One of the most important prerequisites of this work was seamless stereo rendering and user interaction with the two rendering systems. 
+One of the most important prerequisites of this work was seamless stereo rendering and user interaction between the rendering native to the base virtual reality toolkit and the rendering embedded in VTK. 
 
 \textbf{\textit{Stereo Rendering}} The OpenGL context maintains the state machine in which OpenGL commands change the state of the system or query a particular state as needed.
 To support stereo, we utilized the OpenGL context, set by the VR toolkit, to determine the type of stereo (Quad Buffer, Side-by Side, or Top-Bottom stereo) and simply render using the OpenGL context, which sets active buffer, stenciling, etc.
@@ -100,7 +96,6 @@ These two matrices determine the location and orientation of the user's eye
 (camera) in the scene.
 The \texttt{vtkExternalOpenGLRenderer} sets these matrices on the \texttt{vtkExternalOpenGLCamera}.
 Setting these matrices directly on the camera leaves the camera parameters such as position, focal point, and view up direction to incorrect values, Therefore, we compute appropriate viewing coordinates for the camera by multiplying the modelview matrix with the camera initial default position in the OpenGL coordinate system. 
-%\wrs{which is particularly important for lighting ...}
 Once, everything is set on the camera, the navigation and lighting works as expected by the user.
 
 The application itself handles the secondary kind of interactions such as interactive slicing and clipping of the scientific datasets.
@@ -250,8 +245,7 @@ This algorithm provides a two fold speedup for compositing in the appearance of 
 \subsubsection{vtkSMPTools}
 
 The field of parallel computing is advancing rapidly due to innovations in GPU and multicore technologies.
-The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing which uses different libraries such as TBB, OpenMP and X-Kaapi.
-% WRS: for camera-ready we probably should have citations for those products.
+The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing which uses different libraries such as TBB~\cite{TBB:2016}, OpenMP~\cite{OpenMP:2016} and XKaapi~\cite{Gautier:2013}.
 The typical target application is coarse-grained shared-memory computing as provided by mainstream multicore, threaded CPUs such as Intel's i5 and i7 architectures.
 
 For several of the example programs utilizing the \texttt{vtkRenderingExternal} module, we leveraged a new contouring algorithm in VTK that is readily parallelizable using \texttt{vtkSMPTools} and still incredibly efficient in serial mode, called \texttt{vtkFlyingEdges2D} and \texttt{vtkFlyingEdges3D}.

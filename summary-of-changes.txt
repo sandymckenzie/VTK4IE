@@ -43,6 +43,14 @@ From Reviewer 3 -
   Also, in the first line of 3.1.2, explain what is meant by “the two
    rendering systems”.
 
+To clarify the coordination requirement between the rendering systems, we replaced 
+
+   “One of the most important prerequisites of this work was seamless stereo rendering and user interaction with the two rendering systems.”
+
+with
+
+   “One of the most important prerequisites of this work was seamless stereo rendering and user interaction between the rendering native to the base virtual reality toolkit and the rendering embedded in VTK.”
+
 From Reviewer 2
 
 Related Work (Missing citations)

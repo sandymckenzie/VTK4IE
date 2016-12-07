@@ -43,8 +43,9 @@ The application developer would simply like to share the OpenGL context from the
 
 In previous work, by Sherman et al.~\cite{Sherman:2010} and others, Delta3D
 and OpenSceneGraph were quickly modified to instead use windows and associated
-OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.  OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements it's own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had a OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
+OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.  
 % in final paper can mention FreeVR.
+OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements it's own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had a OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
 These solutions are generally limited in their integration.
 Specifically, a rendering library that is unaware of the actual
 viewing matrix will generally not calculate lighting correctly, and
@@ -86,8 +87,7 @@ The difficulty of using intercept methods is that they require more coding
 and tagging, and are not guaranteed to work at all, and this is becoming
 more difficult with OpenGL 3.0+, especially when using a core OpenGL profile.
 
-%In contrast to the OpenGL intercept method, the work in this paper is for the application developer, and there is no intention to eliminate the need to write code.
-%%Rather ...?
+In contrast to the OpenGL intercept method, the work in this paper is for the application developer, and there is no intention to eliminate the need to write code. This work aims at making it easier to develop scientific visualization immersive applications by leveraging the VTK framework.
 
 \textit{\textbf{Enhanced performance}} Near real-time update of scientific visualization metaphors is crucial in immersive environments.
 The field has seen several proposed solutions from decoupling rendering, and processing to parallel visualization~\cite{Bryson:1996, van2000vista}.
