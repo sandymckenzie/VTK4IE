@@ -112,7 +112,7 @@ This work has been merged into the VTK as of release 7.0 available at
 To enable this module when compiling VTK with \texttt{CMake},
 set \texttt{Module\_vtkRenderingExternal} to \texttt{ON} (default is \texttt{OFF}).
 
-\subsection{VR Toolkit Embedding (OpenVR)}
+\subsection{VR Toolkit Embedding (Oculus and OpenVR)}
 
 The potential VR user base has grown profusely with the emerging
 proliferation of consumer-level HMD VR displays along with their associated
@@ -125,60 +125,58 @@ full-fledged VR integration library | is avoiding the programming of
 the alternative VR integration library, and immediately gaining access
 to HMDs compatible with OpenVR, but not to other VR display systems.
 
-To make it possible to use OpenVR-compatible devices with VTK, we embedded OpenVR into VTK within a module, called \texttt{vtkOpenVR}.
-Our goal is to allow VTK programs to use the OpenVR library with few changes, if any.
-If you link your executable to the \texttt{vtkOpenVR} module, the object factory
+To enable using consumer VR devices with VTK, we created Oculus and OpenVR modules in VTK .
+Our goal is to allow VTK programs to use consumer VR devices with few changes, if any, and to support natural interaction when using them.
+If you link your executable to the \texttt{vtkRenderingOpenVR} or \texttt{vtkRenderingOculus} modules, the object factory
 mechanism will replace the core rendering classes (e.g.,
-\texttt{vtkRenderWindow} and \texttt{vtkRenderer}) with the OpenVR-specialized versions in VTK. 
+\texttt{vtkRenderWindow} and \texttt{vtkRenderer}) with the VR specialized versions in VTK.  This also entails changes to the 
+interaction model as VR and VR devices are naturally 3D in nature with single and multi-touch events occurring in 3D space as 
+opposed to the more traditional 2D screen space. To this end we created new classes that support natural picking and interaction given 3D 
+input devices.
+
+One example of this low barrier of entry is incorporating consumer VR support into the latest release of ParaView. With minimal changes to ParaView we are enabling researchers to load up existing visualizations in ParaView and send them to VR to explore them with the Vive or Rift. Researchers can bounce back and forth between the traditional desktop and consumer VR experiences with the press of a button. This type of integration targets our goal of providing a solution with a low barrier of entry.
 
 \subsubsection{Implementation}
 
-The \texttt{vtkOpenVR} module contains the following classes as drop-in replacements in VTK.
+The integrated VR support contains the following classes as drop-in replacements in VTK.
 
-\textbf{\texttt{vtkOpenVRRenderWindow}} - This is a derived class of the RenderWindow class.
-The current implementation creates one renderer that covers the entire window.
-As described in the Related work section, this class (and \texttt{vtkOpenVRRenderer}) is the location for embedding the VR toolkit, and handles the bulk of interfacing to OpenVR. 
+\textbf{\texttt{vtkOpenVR/OculusRenderWindow}} - This is a derived class of the RenderWindow class.
+This class holds the initialization and main interfacing to the consumer VR toolkit. 
 
-\textbf{\texttt{vtkOpenVRRenderer}} - This is a derived class of the Render class.
-The \texttt{vtkOpenVRRenderer} class computes a reasonable scale and translation, and sets the results on \texttt{OpenVRCamera}.
+\textbf{\texttt{vtkOpenVR/OculusRenderer}} - This is a derived class of the Render class.
+Consumer VR devices exist in real world coordinates such as meters, while the world coordinate system of a visualization could be anything from microns to AUs. As such, movements in the real world need to be scaled and translated into reasonable movements in the visualization's world coordinates. The \texttt{vtkOpenVR/OculusRenderer} class computes a reasonable scale and translation which are then used in computing the view and input device transforms. 
 It also sets an appropriate default clipping range expansion.
-Again, this class (and \texttt{vtkOpenVRRenderWindow}) is the location for embedding the VR toolkit.
 
-\textbf{\texttt{vtkOpenVRCamera}} - This is a derived class of the Camera class. \texttt{vtkOpenVRCamera} gets the matrices from OpenVR to use for rendering.
-It contains a scale and translation that are designed to map world coordinates into the HMD space.
+\textbf{\texttt{vtkOpenVR/OculusCamera}} - This is a derived class of the Camera class. \texttt{vtkOpenVRCamera} gets the matrices from the VR library to use for rendering and integrates them with the model, view and world matrices from the visualization. It contains a scale and translation that are designed to map world coordinates into the HMD space.
 Accordingly, the application developer can keep world coordinates in the units best suited to their problem domain, and the camera will shift and scale into units that make sense for the HMD.
 
-\textbf{\texttt{vtkOpenVRRenderWindowIneractor}} - VTK is designed to pick and interact based on two-degrees of freedom, desktop X and Y mouse/window coordinates.
-In contrast, OpenVR provides X, Y and Z 3D world coordinates and 3D orientations.
+\textbf{\texttt{vtkOpenVR/OculusRenderWindowInteractor}} - VTK is designed to pick and interact based on two-degrees of freedom, desktop X and Y mouse/window coordinates.
+In contrast, VR provides X, Y and Z 3D world coordinates and 3D orientations.
 The \texttt{vtkOpenVRRenderWindowInteractor} class catches controller events and converts them to mouse/window events.
-In addition, this class also stores the world coordinate positions for the styles or pickers that need them.
-\texttt{vtkOpenVRRenderWindowInteractor} supports multiple controllers through the standard PointerIndex approach that VTK uses for MultiTouch.
+In addition, this class also stores the world coordinate positions and orientations for the styles or pickers that need them.
+\texttt{vtkOpenVRRenderWindowInteractor} supports multiple controllers through the standard PointerIndex apfsproach that VTK uses for multi-touch.
 
-\textbf{\texttt{vtkInteractorStyleOpenVR}} - In concert with the \texttt{vtkOpenVRRenderWindowInteractor} class, we derived the \texttt{vtkInteractorStyleOpenVR} class
-to use 3D world coordinates to adjust \texttt{Actor}s.
+\textbf{\texttt{vtkInteractorStyle3D}} - In concert with the VR specialized \texttt{vtkRenderWindowInteractor} classed, we derived the \texttt{vtkInteractorStyle3D} class
+to use 3D world coordinate events to manipulate \texttt{Actor}s, and handle multi-touch 3D events such as scaling or translating the world to real transforms.
 This class provides a common grab-and-move style of interaction that is common to OpenVR and other VR toolkits.
 
-\textbf{\texttt{vtkOpenVRPropPicker}} - Finally, the derived \texttt{vtkOpenVRPropPicker} class determines what \texttt{Actor}s or \texttt{Prop}s VTK picks.
+\textbf{\texttt{vtkPropPicke3D}} - Finally, the derived \texttt{vtkPropPicke3D} class determines what \texttt{Actor}s or \texttt{Prop}s VTK picks.
 Note that \texttt{Prop} is an abstract superclass for any object that can exist in a rendered scene (either 2D or 3D), and defines the API for picking, LOD manipulation, and common instance variables that control visibility, picking, and dragging.
-The \texttt{vtkOpenVRPropPicker} class uses the 3D world coordinate as the picking value as opposed to an intersecting a ray, which is slower.
+The \texttt{vtkPropPicker3D} class uses the 3D world coordinate from a VR device as the picking value as opposed to using a 2D event and intersecting a ray, which is slower.
 
-These OpenVR derived classes work from within VTK to provide seamless access to cameras, lighting, interaction and the complete VTK pipeline.
+These derived classes work from within VTK to provide seamless access to cameras, lighting, interaction and the complete VTK pipeline.
 
-\subsubsection{Enabling \texttt{vtkOpenVR}}
+\subsubsection{Enabling the OpenVR and Oculus Modules}
 
-To use VTK with OpenVR, first download the master branch of VTK from the VTK
+To use VTK with Oculus or OpenVR support, first download VTK 7.1 or later from the VTK
 repository on GitHub (see \url{http://www.vtk.org}).
-The remote module for \texttt{vtkOpenVR} can be found at
-\url{https://goo.gl/0jem0V}. Place this file into the Remote folder of your VTK source tree.
-You must also install two external libraries: Simple DirectMedia Layer 2 (SDL2) and OpenVR.
-To enable this module, use \texttt{CMake} to set \texttt{Module\_vtkOpenVR} to \texttt{ON} (default is \texttt{OFF}).
+To enable these modules, use \texttt{CMake} to set \texttt{Module\_vtkRenderingOpenVR} or \texttt{Module\_vtkRenderingOculus} to \texttt{ON} (default is \texttt{OFF}).
+The \texttt{CMake} build process will prompt you for some external libraries including Simple DirectMedia Layer 2 (SDL2) and the OpenVR or Oculus SDK as appropriate.
 Ensure you build an optimized version of VTK to maximize performance while using these new capabilities.
 
 \subsubsection{Future Developments}
 
-The \texttt{vtkOpenVR}  module is currently in the alpha phase and has been tested on the HTC Vive HMD.
-Moving forward, we look to add support for the OpenVR overlay, which provides support for user interface components.
-We also expect to make the module faster and include more event interactions. 
+The consumer VR support is currently in the beta phase and has been tested on the HTC Vive and Oculus Rift. Moving forward, we look to add support for the features such as overlays, which provide support for user interface components. We also expect to include more event interactions, Oculus touch controller support, and measurement widgets.
 
 \subsection{Performance enhancements}
 

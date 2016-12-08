@@ -64,9 +64,10 @@ VRJuggler~\cite{Bierbaum:2001}, created third party software essentially
 deriving \texttt{vtkRenderWindow} and \texttt{vtkRenderer} classes, but, from
 outside of VTK; lighting and interaction were not shared and resulted in troublesome behavior.
 
-In this work, we've created a new VTK module based on OpenVR~\cite{OpenVR:2016}.
-OpenVR is an application programming interface (API) developed by Valve for supporting their SteamVR ecosystem, compatible with the HTC Vive and other virtual reality hardware~\cite{Road2VR:2015}.
-The OpenVR module supports several immersive environments now without the issues faced by previous work, and provides a template for embedding other VR Toolkits within VTK in the future.
+In this work, we've created two new VTK modules based on either the Oculus~\cite{Oculus:2016} or the OpenVR~\cite{OpenVR:2016} software development kits.
+OpenVR is an application programming interface (API) developed by Valve for supporting their SteamVR ecosystem, compatible with the HTC Vive and other virtual reality hardware~\cite{Road2VR:2015}. Oculus provides software development kits more closely tied to their equipment for mobile, desktop and web VR. The Oculus and OpenVR VTK modules support several immersive environments directly
+without the issues faced by previous work, and is a complete template
+for embedding other VR Toolkits within VTK in future work.
 
 \textit{\textbf{OpenGL intercept}}
 A fourth possible means for melding VTK into a virtual environment system
