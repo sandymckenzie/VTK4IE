@@ -3,28 +3,26 @@
 The use of scientific visualization in immersive environments is simply natural, while tactically important for scientific discovery, product design and data analysis.
 There are several high quality scientific visualization virtual reality applications created from scratch using OpenGL directly~\cite{Billen:2008, LaViola:2007, Schulze:2001, Rantzau:1998} including the stunning GPU accelerated hybrid volume and glyph approach for molecular dynamics and other visualizations in the CAVE2~\cite{Reda:2013, Reda:2013a}.
 These are certainly exemplary and valuable applications.
-However, when building immersive applications, much like desktop applications, with scientific requirements, it is often more efficient to leverage the open source visualization toolkit (VTK)~\cite{Schroeder:2004}.
+However, when building immersive applications, much like desktop applications, with scientific visualization requirements, it is often more efficient to leverage the open-source visualization toolkit (VTK)~\cite{Schroeder:2004}.
 
 Throughout the past two decades, several research teams and developers have integrated VTK with immersive environments to varying degrees of success.
-Four fundamental approaches are available to bring VTK into an
-immersive rendering system:
+Four fundamental approaches are available to enable VTK in an immersive system:
 
 \begin{compactitem}
 \item Geometry transport;
 \item OpenGL context sharing;
 \item VR toolkit embedding; and
 \item OpenGL intercept.
-
 \end{compactitem}
 
 Our recent enhancements to the VTK platform contain solutions for the desired integration that present a number of contributions, and, therefore, we review related work for these areas.
 
 \textbf{\textit{Geometry transport}}
-An early approach to VTK-VR integration was the \texttt{vtkActorToPF} library~\cite{Leigh98limbo/vtk}.
+An early approach to VTK--VR integration was the \texttt{vtkActorToPF} library~\cite{Leigh98limbo/vtk}.
 In this method, the generation of visualization geometry is decoupled from
 the rendering of the geometry (see Figure~\ref{fig:vtkActorToPF}). 
 VTK generates the geometry in the form of actors that consist of polygons and properties.
-\texttt{vtkActorToPF} transforms these actors into pf-Geodes (nodes) that are included in a Performer (OpenSceneGraph) scene graph. The geometry is created by VTK, and the scene graph is rendered without VTK. Only geometry is transformed. Cameras, lights, rendering and interaction are not incorporated. Several applications utilized the equivalent \texttt{vtkActorToOSG} for an OpenSceneGraph-based scene graph~\cite{VE-Suite:2016} or directly into OpenGL~\cite{Ohno:2006}. Others have used VTK in a preprocessing step to produce geometries or textures eliminating the need for a direct connection to VTK\cite{Bivins:2005}.
+\texttt{vtkActorToPF} transforms these actors into pf-Geodes (nodes) that are included in a Performer (or OpenSceneGraph) scene graph. The geometry is created by VTK, and the scene graph is rendered without VTK. Only geometry is transformed. Cameras, lights, rendering and interaction are not incorporated. Several applications utilized the equivalent \texttt{vtkActorToOSG} for an OpenSceneGraph-based scene graph~\cite{VE-Suite:2016} or directly into OpenGL~\cite{Ohno:2006}. Others have used VTK in a preprocessing step to produce geometries or textures eliminating the need for a direct connection to VTK~\cite{Bivins:2005}.
 
 \begin{figure}[h!]
   \centering
@@ -33,81 +31,77 @@ VTK generates the geometry in the form of actors that consist of polygons and pr
   \label{fig:vtkActorToPF}
 \end{figure}
 
-VTK can be used to create, transport and save geometry without rendering. As effective as this approach can be, the loose coupling of VTK and a VR toolkit creates more obstacles than benefits from an application developers perspective, and is not built upon by this work.
+VTK can be used to create, transport and save geometry without rendering. As effective as this approach can be, the loose coupling of VTK and the VR toolkit creates more obstacles than benefits from an application developers perspective, and is, therefore, not built upon by this work.
 
 \textbf{\textit{OpenGL context sharing}} Rather than share just the VTK geometry, the application developer would like to use all of the VTK API from within their immersive application.
 In VTK, the renderer and render window classes are responsible for rendering scenes.
 VTK creates it's own window and associates an OpenGL context with that window to be used by the renderer.
-An OpenGL context represents: all of the state; the default framebuffer; and everything affiliated with OpenGL with respect to the renderer, window and application.
-The application developer would simply like to share the OpenGL context from the VR Toolkit with a third party rendering software (e.g. Delta3D~\cite{McDowell:2006}, OpenSceneGraph~\cite{Wang:2010} and VTK). 
+An OpenGL context represents: all of the state, the default framebuffer and everything affiliated with OpenGL with respect to the renderer, window and application.
+The application developer seeks to simply share the OpenGL context from the VR toolkit with a third-party rendering software (e.g. Delta3D~\cite{McDowell:2006}, OpenSceneGraph~\cite{Wang:2010} and VTK). 
 
 In previous work, by Sherman et al.~\cite{Sherman:2010} and others, Delta3D
 and OpenSceneGraph were quickly modified to instead use windows and associated
 OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.  
 % in final paper can mention FreeVR.
-OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements it's own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had a OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
+OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements it's own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had an OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
 These solutions are generally limited in their integration.
 Specifically, a rendering library that is unaware of the actual
-viewing matrix will generally not calculate lighting correctly, and
-picking input operations do not conform to the shifted rendering. And as the VTK application programming interface (API) adapts and adds enhancements in time, these implementations are locked into to older versions of VTK.
+viewing matrix does generally not calculate lighting correctly, and
+picking input operations do not conform to the shifted rendering. As the VTK API adapts and adds enhancements in time, these implementations are generally locked into to older versions of VTK.
 
-Our \texttt{vtkRenderingExternal} VTK module formalizes this integration providing lights, interaction and picking connectivity lacking in other implementations, while allowing the application developer complete access to the VTK pipeline.
+Our \texttt{vtkRenderingExternal} VTK module formalizes this integration, providing lights, interaction and picking connectivity that are lacking in other implementations. The module also offers the application developer complete access to the VTK pipeline.
 
 \textbf{\textit{VR Toolkit embedding}} A similarly time-proven approach is based on the modification of the VTK renderer and render window~\cite{van2000vista, Hannema:2001, Shamonin02vtkcave, Belleman:2003}. 
 To render in an immersive environment, derived classes of the
-\texttt{vtkRenderer} and \texttt{vtkRenderWindow} are created, which depends on fundamental calls to the VR toolkit.
-Thus, VTK-based applications can simply exchange these two items to run on the desktop or immersive environment.
+\texttt{vtkRenderer} and \texttt{vtkRenderWindow} are created, which depend on fundamental calls to the VR toolkit.
+Thus, VTK-based applications can simply exchange these two items to run on the desktop or the immersive environment.
 VTK has evolved significantly over the years, as have the diversity of virtual reality products.
 vtkCave~\cite{Tufo:1999}, for the CAVELib~\cite{CAVELib:2016}, followed by
 vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012}, for
-VRJuggler~\cite{Bierbaum:2001}, created third party software essentially
-deriving \texttt{vtkRenderWindow} and \texttt{vtkRenderer} classes, but, from
-outside of VTK; lighting and interaction were not shared and resulted in troublesome behavior.
+VRJuggler~\cite{Bierbaum:2001}, created third-party software, essentially
+deriving the \texttt{vtkRenderWindow} and \texttt{vtkRenderer} classes. Outside of VTK, lighting and interaction were not shared, which resulted in troublesome behavior.
 
-In this work, we've created two new VTK modules based on either the Oculus~\cite{Oculus:2016} or the OpenVR~\cite{OpenVR:2016} software development kits.
-OpenVR is an application programming interface (API) developed by Valve for supporting their SteamVR ecosystem, compatible with the HTC Vive and other virtual reality hardware~\cite{Road2VR:2015}. Oculus provides software development kits more closely tied to their equipment for mobile, desktop and web VR. The Oculus and OpenVR VTK modules support several immersive environments directly
+In this work, we have created two new VTK modules based on either the Oculus~\cite{Oculus:2016} or the OpenVR~\cite{OpenVR:2016} software development kits.
+OpenVR is an application programming interface (API) developed by Valve to support its SteamVR ecosystem, compatible with the HTC Vive and other VR hardware~\cite{Road2VR:2015}. Oculus provides software development kits more closely tied to their equipment for mobile, desktop and web VR. The Oculus and OpenVR VTK modules support several immersive environments directly
 without the issues faced by previous work, and is a complete template
-for embedding other VR Toolkits within VTK in future work.
+for embedding other VR toolkits within VTK in future work.
 
 \textit{\textbf{OpenGL intercept}}
 A fourth possible means for melding VTK into a virtual environment system
 is the \textit{OpenGL intercept} method
-~\cite{Humphreys:2001,Humphreys:2002,Zielinski:2014,TechViz:2016,Conduit:2016}.
-Here, at runtime, middleware is inserted between the application and the graphics card.
-With this technique, closed-source applications can be rendered with
-the head-tracked perspective rendering overriding the internal view matrix
-to provide the virtual reality experience.
+~\cite{Humphreys:2001,Humphreys:2002,Zielinski:2014,TechViz:2016,Conduit:2016}, in which middleware is inserted between the application and the graphics card at runtime.
+With this technique, closed-source applications can be rendered so that
+the head-tracked perspective rendering overrides the internal view matrix
+to provide the VR experience.
 Thus, this technique enables basic desktop tools to be used with an
-immersive interface | albeit a limited interface given the open-loop nature of
+immersive interface | albeit a limited interface, given the open-loop nature of
 grabbing the rendering, but not connecting back to the parameter interface.
-Yet, the perspective rendering alone can be extremely valuable and allow
+Yet, the perspective rendering alone can be extremely valuable and can allow
 scientists, engineers or medical researchers to interact with their desktop
-tools in a whole new way. However, many of these methods lack full functionality in the immersive environments, which limits the usefulness to end users.
+tools in a whole new way. However, many of these methods lack full functionality in the immersive environments, which limits their usefulness to end-users.
 Pure OpenGL, without any modifications or additions,  is sure to work using interception.
 The difficulty of using intercept methods is that they require more coding
-and tagging, and are not guaranteed to work at all, and this is becoming
+and tagging, and they are not guaranteed to work at all. This is becoming
 more difficult with OpenGL 3.0+, especially when using a core OpenGL profile.
 
-In contrast to the OpenGL intercept method, the work in this paper is for the application developer, and there is no intention to eliminate the need to write code. This work aims at making it easier to develop scientific visualization immersive applications by leveraging the VTK framework.
+In contrast to the OpenGL intercept method, the work in this paper is for the application developer, and there is no intention to eliminate the need to write code. This work aims to make  it easier to develop scientific visualization immersive applications by leveraging VTK.
 
 \textit{\textbf{Enhanced performance}} Near real-time update of scientific visualization metaphors is crucial in immersive environments.
 The field has seen several proposed solutions from decoupling rendering, and processing to parallel visualization~\cite{Bryson:1996, van2000vista}.
-This effort stands apart from all these previous efforts, which valiant
-as they were, ultimately have been lost to time as VTK has continued to
+This effort stands apart from all these previous efforts. Valiant
+as they were, the efforts were ultimately lost to time, as VTK has continued to
 evolve, making it difficult for tacked-together components to remain in
 sync with the API.
 Rather, by providing rendering access from within the VTK API itself, new
-tools can rely on a stability that hasn't been available for techniques
-that perform functions outside the bounds of the API design, often accessing
+tools can rely on a stability that has not been available for techniques
+that perform functions outside the bounds of the API design. Often, such techniques access
 internal features that do not have the assurance of stability.
 As a commercially supported open-source tool, VTK's rendering performance is
 continually being advanced.
 VTK has been around since 1993 with over one hundred thousand repository commits from over two-hundred and fifty contributors.
-Having the latest algorithm implementation requires using the existing implementation in VTK or contributing the algorithm to VTK.
+Having the latest algorithm implementation requires the use of the existing implementation in VTK or calls for the algorithm's contribution to VTK.
 
 We present recent enhancements to VTK that significantly impact immersive
-environment application development. The OpenGL 3.2+ pipeline, described in Hanwell et al~\cite{Hanwell:2015}, provides the most dramatic improvement in performance. We have supplemented this work with Bavoil and Myers dual depth peeling~\cite{Bavoil:2008} and symmetric multiprocessing (SMP) tools and algorithms to address the performance issues for transparent geometry and computationally intense algorithms (e.g. isosurfaces).
+environment application development. The OpenGL 3.2+ pipeline, described in Hanwell et al~\cite{Hanwell:2015}, provides the most dramatic improvement in performance. We have supplemented this work with Bavoil and Myers dual depth peeling~\cite{Bavoil:2008}, as well as symmetric multiprocessing (SMP) tools and algorithms, to address the performance issues for transparent geometry and computationally intense algorithms (e.g., isosurfaces).
 
-Finally, our work will eventually allow application developers to leverage portable threaded data parallel algorithms capable of running on next generation hardware from VTK-m~\cite{Moreland:2016}. VTK-m has shown impressive results in its first two years of development, and, as the number of filters available in VTK-m's repository grows, the plan is to make them available in the next major release of VTK. Thus, if VTK-m is contained in VTK, then applications developed using the integrations described in this paper can use it.
-
-
+Finally, our work will eventually allow application developers to leverage portable threaded data parallel algorithms capable of running on next generation hardware from VTK-m~\cite{Moreland:2016}. VTK-m has shown impressive results in its first two years of development. As the number of filters available in VTK-m's repository grows, the plan is to make them available in the next major release of VTK. Thus, if VTK-m is contained in VTK, then applications developed using the integrations described in this paper can use it.
