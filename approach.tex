@@ -70,12 +70,13 @@ provides a plug-and-play approach to the \texttt{vtkRenderingExternal} module.
 It allows the consumer application to use all the new classes as described above
 in just one step. The overarching application needs only to instantiate this
 class to use VTK's external rendering capabilities. The
-\texttt{ExtenalVTKWidget} creates a new external render window or uses one
+\texttt{ExternalVTKWidget} creates a new external render window or uses one
 provided to it from the external library / application.
 
 \subsubsection{Implementation}
 
-One of the most important prerequisites of this work was seamless stereo rendering and user interaction between the rendering native to the base virtual reality toolkit and the rendering embedded in VTK. 
+One of the most important prerequisites of this work was seamless stereo
+rendering and user interaction, between the rendering native to the base virtual reality toolkit and the rendering embedded in VTK. 
 
 \textbf{\textit{Stereo Rendering}} The OpenGL context maintains the state machine in which OpenGL commands change the state of the system or query a particular state as needed.
 To support stereo, we utilized the OpenGL context, set by the VR toolkit, to determine the type of stereo (Quad Buffer, Side-by Side, or Top-Bottom stereo) and simply render using the OpenGL context, which sets active buffer, stenciling, etc.
@@ -85,7 +86,8 @@ This is set only once, immediately after the context has been created, and is ma
 There will probably be some GUI elements that will also be rendered in addition to the VTK elements.
 Thus, the VTK rendering will be mixed with other OpenGL elements.
 The new \texttt{ExternalRenderer} class does not clear the depth or color buffers, leaving that to the display integration library or application.
-The depth buffer can then act to allow OpenGL elements to be mixed (composited) in three-space with closer elements occluding farther ones.
+The depth buffer can then act to allow OpenGL elements to be mixed (composited)
+in three dimensional space with closer elements occluding farther ones.
 
 \textbf{\textit{User Interactions}} Generally, in the case of a VR toolkit, interaction such as navigation in the scene space, grab, and rotation of various scene objects are handled by the VR integration library (e.g., Vrui).
 VTK has its own classes and methods for interaction and scene object manipulation.
