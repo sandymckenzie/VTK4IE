@@ -34,7 +34,7 @@ For instance, the \texttt{RenderWindow} typically creates the context in which
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[scale=0.5]{images/vtkRenderPipeline.pdf}
+  \includegraphics[width=0.5\linewidth]{images/vtkRenderPipeline.pdf}
   \caption{vtkRenderWindow, vtkRenderer, vtkCamera, vtkActor, and vtkMapper interaction diagram.}
   \label{fig:vtkRenderPipeline}
 \end{figure}
@@ -142,21 +142,21 @@ One example of this low barrier of entry is incorporating consumer VR support in
 
 The integrated VR support contains the following classes as drop-in replacements in VTK.
 
-\textbf{\texttt{vtkOpenVR/OculusRenderWindow}} - This is a derived class of the RenderWindow class.
+\textbf{\texttt{vtk(OpenVR/Oculus)RenderWindow}} - This is a derived class of the RenderWindow class.
 This class holds the initialization and main interfacing to the consumer VR toolkit. 
 
-\textbf{\texttt{vtkOpenVR/OculusRenderer}} - This is a derived class of the Render class.
-Consumer VR devices exist in real world coordinates such as meters, while the world coordinate system of a visualization could be anything from microns to AUs. As such, movements in the real world need to be scaled and translated into reasonable movements in the visualization's world coordinates. The \texttt{vtkOpenVR/OculusRenderer} class computes a reasonable scale and translation which are then used in computing the view and input device transforms. 
+\textbf{\texttt{vtk(OpenVR/Oculus)Renderer}} - This is a derived class of the Render class.
+Consumer VR devices exist in real world coordinates such as meters, while the world coordinate system of a visualization could be anything from microns to AUs. As such, movements in the real world need to be scaled and translated into reasonable movements in the visualization's world coordinates. The \texttt{vtk(OpenVR/Oculus)Renderer} class computes a reasonable scale and translation which are then used in computing the view and input device transforms. 
 It also sets an appropriate default clipping range expansion.
 
-\textbf{\texttt{vtkOpenVR/OculusCamera}} - This is a derived class of the Camera class. \texttt{vtkOpenVRCamera} gets the matrices from the VR library to use for rendering and integrates them with the model, view and world matrices from the visualization. It contains a scale and translation that are designed to map world coordinates into the HMD space.
+\textbf{\texttt{vtk(OpenVR/Oculus)Camera}} - This is a derived class of the Camera class. \texttt{vtk(OpenVR/Oculus)Camera} gets the matrices from the VR library to use for rendering and integrates them with the model, view and world matrices from the visualization. It contains a scale and translation that are designed to map world coordinates into the HMD space.
 Accordingly, the application developers can keep world coordinates in the units best suited to their problem domains, and the camera will shift and scale into units that make sense for the HMD.
 
-\textbf{\texttt{vtkOpenVR/OculusRenderWindowInteractor}} - VTK is designed to pick and interact based on two-degrees of freedom, desktop X and Y mouse/window coordinates.
+\textbf{\texttt{vtk(OpenVR/Oculus)RenderWindowInteractor}} - VTK is designed to pick and interact based on two-degrees of freedom, desktop X and Y mouse/window coordinates.
 In contrast, VR provides X, Y and Z 3D world coordinates as well as 3D orientations.
-The \texttt{vtkOpenVRRenderWindowInteractor} class catches controller events and converts them to mouse/window events.
+The \texttt{vtk(OpenVR/Oculus)RenderWindowInteractor} class catches controller events and converts them to mouse/window events.
 In addition, this class also stores the world coordinate positions and orientations for the styles or pickers that need them.
-\texttt{vtkOpenVRRenderWindowInteractor} supports multiple controllers through the standard PointerIndex apfsproach that VTK uses for multi-touch.
+\texttt{vtk(OpenVR/Oculus)RenderWindowInteractor} supports multiple controllers through the standard PointerIndex approach that VTK uses for multi-touch.
 
 \textbf{\texttt{vtkInteractorStyle3D}} - In concert with the VR specialized \texttt{vtkRenderWindowInteractor} classed, we derived the \texttt{vtkInteractorStyle3D} class
 to use 3D world coordinate events to manipulate \texttt{Actor}s, and handle multi-touch 3D events such as scaling or translating the world to real transforms.

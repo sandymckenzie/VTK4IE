@@ -82,14 +82,21 @@ The ``\textit{Animation Dialog}" helps play through the time steps with controls
 
 In Figure~\ref{fig:fuelpin}, we see surface geometry colored by the selected temperature attribute animated using the ``\textit{Animation Dialog}".
 
-Like 3D Visualizer~\cite{Billen:2008}, MooseViewer provides a number of scientific visualization techniques for simulation data, but MooseViewer was created in weeks. Enhancements are added by simply plugging in alternative VTK algorithms to enhance/scale performance.  Although focused on the ExodusII file format, accepting data from other scientific data formats in MooseViewer is a simple task. MooseViewer out performs Visualizer using the VTK OpenGL 3.2+ rendering pipeline, but pure rendering performance fails to highlight Visualizer's unique immersive specific level-of-detail algorithms. 3DVisualizer is a fantastic immersive application,. If an end-user has data in one of its accepted formats, we encourage that person to leverage some of its unique features.
-
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=3.5in]{images/ViveTownData.png}
-  \caption{HTC Vive Town using VTK with OpenVR.}
-  \label{fig:ViveTown}
+  \includegraphics[width=3.5in]{images/Dragon.jpg}
+  \caption{Polygonal rendering of a sample dataset by VTK for OpenVR on HTC Vive.}
+  \label{fig:openvrdragon}
 \end{figure}
+
+Like 3D Visualizer~\cite{Billen:2008}, MooseViewer provides a number of scientific visualization techniques for simulation data, but MooseViewer was created in weeks. Enhancements are added by simply plugging in alternative VTK algorithms to enhance/scale performance.  Although focused on the ExodusII file format, accepting data from other scientific data formats in MooseViewer is a simple task. MooseViewer out performs Visualizer using the VTK OpenGL 3.2+ rendering pipeline, but pure rendering performance fails to highlight Visualizer's unique immersive specific level-of-detail algorithms. 3DVisualizer is a fantastic immersive application,. If an end-user has data in one of its accepted formats, we encourage that person to leverage some of its unique features.
+
+%\begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=3.5in]{images/ViveTownData.png}
+%  \caption{HTC Vive Town using VTK with OpenVR.}
+%  \label{fig:ViveTown}
+%\end{figure}
 
 \subsection{OpenVR Implementation}
 
@@ -104,10 +111,3 @@ The example is available as a test case under the
 The modest amount of code needed to put VTK generated polygons into the
 Vive HMD attests to the modularity and complete integration of an
 existing VR framework | in this case, \texttt{vtkOpenVR}.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=3.5in]{images/Dragon.jpg}
-  \caption{Polygonal rendering of a sample dataset by VTK for OpenVR on HTC Vive.}
-  \label{fig:openvrdragon}
-\end{figure}
