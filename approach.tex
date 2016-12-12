@@ -12,7 +12,7 @@ In the implementation sub-section, we provide in-depth details of features we im
 
 Traditionally, VTK creates and manages its own OpenGL context as well as the data objects within the scene.
 The objective of this work was to bring the high-quality scientific visualization, computing and rendering capabilities of VTK to VR environments in a way that is easier to develop and maintain.
-By bringing VTK into virtual environments created by interface-specific tools such as GLUT, VRUI, and FreeVR, we provide the tools necessary to build interactive, 3D scientific visualizations to the developers of the VR community.
+By bringing VTK into virtual environments created by interface-specific tools such as VRUI and FreeVR, we provide the tools necessary to build interactive, three-dimensional (3D) scientific visualizations to the developers of the VR community.
 
 \subsubsection{Architecture}
 
@@ -79,7 +79,7 @@ Some of the most important prerequisites of this work were seamless stereo
 rendering and user interaction, between the rendering native to the base VR toolkit and the rendering embedded in VTK. 
 
 \textbf{\textit{Stereo Rendering}} The OpenGL context maintains the state machine, in which OpenGL commands change the state of the system or query a particular state as needed.
-To support stereo, we utilized the OpenGL context, set by the VR toolkit, to determine the type of stereo (Quad Buffer, Side-by Side, or Top-Bottom stereo) and simply render using the OpenGL context This context sets the active buffer, stenciling, etc.
+To support stereo, we utilized the OpenGL context, set by the VR toolkit, to determine the type of stereo (Quad Buffer, Side-by Side, or Top-Bottom stereo) and simply render using the OpenGL context. This context sets the active buffer, stenciling, etc.
 Such settings are made only once, immediately after the context has been created, and are maintained by the VR toolkit over time. 
 
 \textbf{\textit{2D and 3D Interface Widgets}} In most cases, VTK elements will not be the only objects in a scene.
@@ -97,7 +97,7 @@ We added a GL query in the external renderer, which uses the GL state system to 
 These two matrices determine the location and orientation of the end-user's eye
 (camera) in the scene.
 The \texttt{vtkExternalOpenGLRenderer} sets these matrices on the \texttt{vtkExternalOpenGLCamera}.
-Setting these matrices directly on the camera leaves the camera parameters such as position, focal point, and view-up direction as incorrect values, Therefore, we compute appropriate viewing coordinates for the camera by multiplying the modelview matrix with the camera's initial default position in the OpenGL coordinate system. 
+Setting these matrices directly on the camera leaves the camera parameters such as position, focal point, and view-up direction as incorrect values. Therefore, we compute appropriate viewing coordinates for the camera by multiplying the modelview matrix with the camera's initial default position in the OpenGL coordinate system. 
 Once, everything is set on the camera, the navigation and lighting works as expected by the end-user.
 
 The application itself handles the secondary kind of interactions such as interactive slicing and clipping of the scientific datasets.
@@ -125,7 +125,7 @@ also available.
 The trade-off | for developers who don't already have expertise in a
 full-fledged VR integration library | is avoiding the programming of
 the alternative VR integration library, and immediately gaining access
-to HMDs compatible with OpenVR, but not to other VR display systems.
+to HMDs compatible with Oculus or OpenVR, but not to other VR display systems.
 
 To enable using consumer VR devices with VTK, we created Oculus and OpenVR modules in VTK .
 Our goal is to allow VTK programs to use consumer VR devices with few changes, if any, and to support natural interaction when using them.
@@ -162,7 +162,7 @@ In addition, this class also stores the world coordinate positions and orientati
 to use 3D world coordinate events to manipulate \texttt{Actor}s, and handle multi-touch 3D events such as scaling or translating the world to real transforms.
 This class provides a common grab-and-move style of interaction that is common to OpenVR and other VR toolkits.
 
-\textbf{\texttt{vtkPropPicke3D}} - Finally, the derived \texttt{vtkPropPicke3D} class determines what \texttt{Actor}s or \texttt{Prop}s VTK picks.
+\textbf{\texttt{vtkPropPicker3D}} - Finally, the derived \texttt{vtkPropPicker3D} class determines what \texttt{Actor}s or \texttt{Prop}s VTK picks.
 Note that \texttt{Prop} is an abstract superclass for any object that can exist in a rendered scene (either 2D or 3D). It defines the API for picking; the LOD manipulation; and the common instance variables that control visibility, picking, and dragging.
 The \texttt{vtkPropPicker3D} class uses the 3D world coordinate from a VR device as the picking value as opposed to using a 2D event and intersecting a ray, which is slower.
 
@@ -203,7 +203,7 @@ collectively called ``OpenGL2".
 This work aims to support rendering on modern graphics cards~\cite{Hanwell:2015}.
 
 The results have been nothing short of spectacular.
-Polygon rendering demonstrates a tenfold speed-up for the first frame rendering, followed by a two-hundredfold speed-up for subsequent frames for upto thirty million triangles.
+Polygon rendering demonstrates a tenfold speed-up for the first frame rendering, followed by a two-hundredfold speed-up for subsequent frames for up to thirty million triangles.
 The previous volume rendering was also graphics processing unit (GPU) aware, and, thus, the improvement is a modest but substantial two fold speed-up. 
 
 To realize these performance enhancements, VTK now uses an OpenGL 3.2+ context, which is available on fairly low-end modern GPUs.
@@ -247,5 +247,5 @@ The field of parallel computing is advancing rapidly due to innovations in GPU a
 The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing which uses different libraries such as TBB~\cite{TBB:2016}, OpenMP~\cite{OpenMP:2016} and XKaapi~\cite{Gautier:2013}.
 The typical target application is coarse-grained shared-memory computing as provided by mainstream multicore, threaded CPUs such as Intel's i5 and i7 architectures.
 
-For several of the example programs, that utilize the \texttt{vtkRenderingExternal} module, we leveraged a new contouring algorithms in VTK that are readily parallelizable using \texttt{vtkSMPTools} and still incredibly efficient in serial mode, called \texttt{vtkFlyingEdges2D} and \texttt{vtkFlyingEdges3D}.
+For several of the example programs, that utilize the \texttt{vtkRenderingExternal} module, we leveraged new contouring algorithms in VTK that are readily parallelizable using \texttt{vtkSMPTools} and still incredibly efficient in serial mode, called \texttt{vtkFlyingEdges2D} and \texttt{vtkFlyingEdges3D}.
 While the OpenGL2 group improves rendering performance, \texttt{vtkSMPTools} can be used to enhance the geometry generation performance for scientific visualization.

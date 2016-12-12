@@ -1,6 +1,6 @@
 \section{Results}
 
-To demonstrate the utility of our VTK enhancements provide scientific
+To demonstrate the utility our VTK enhancements provide scientific
 visualization efforts, and test various use cases, we have implemented three kinds of
 applications for the \texttt{vtkRenderingExternal} approach as well as
 a simple example using \texttt{vtkOpenVR}.
@@ -65,7 +65,7 @@ Figure~\ref{fig:volume} depicts our implementation of a transfer function editor
 
 Widgets such as Isosurfaces, Contours, Slice provide VTK-level operations that can be carried out on the dataset. To circumvent possible interaction problems when dealing with large datasets, a low resolution mode is provided that down-samples the dataset. This lets the end-user fulfill actions quickly that would otherwise take more time on the full dataset and then revert back to the full size when ready to visualize the complete dataset.
 
-Immersive volume visualization applications are fundamental for a number of scientific research domains, and it's not surprising that there exists a number of partial solutions in the public domain. VolumeViewer has similar features contained in both 3D Visualizer~\cite{Billen:2008} and Toirt Samhlaigh~\cite{O'Leary:2008}. Both applications used complex, from scratch, OpenGL algorithms that are time consuming to develop. Visualizer uses a standard GPU GLSL shader-based raycasting algorithm. While Toirt uses a octree-based space skipping, GPU GLSL shader-based view-aligned algorithm to provide higher performance on larger volumes. In contrast, VolumeViewer requires less than a hundred lines of VTK API to implement roughly the same GPU GLSL shader-based raycasting used in Visualizer. VolumeViewer's performance is equal to or exceeds that of the other tools. In addition, by modifying a line or two of VolumeViewer's code, it can accept data from any of the hundred plus supported scientific data formats | a feat that would require the implementation of readers, data structures and algorithms in either of the other two applications.
+Immersive volume visualization applications are fundamental for a number of scientific research domains, and it's not surprising that there exists a number of partial solutions in the public domain. VolumeViewer has similar features contained in both 3D Visualizer~\cite{Billen:2008} and Toirt Samhlaigh~\cite{O'Leary:2008}. Both applications used complex, from scratch, OpenGL algorithms that are time consuming to develop. Visualizer uses a standard GPU GLSL shader-based raycasting algorithm. While Toirt uses an octree-based space skipping, GPU GLSL shader-based view-aligned algorithm to provide higher performance on larger volumes. In contrast, VolumeViewer requires less than a hundred lines of VTK API to implement roughly the same GPU GLSL shader-based raycasting used in Visualizer. VolumeViewer's performance is equal to or exceeds that of the other tools. In addition, by modifying a line or two of VolumeViewer's code, it can accept data from any of the hundred plus supported scientific data formats | a feat that would require the implementation of readers, data structures and algorithms in either of the other two applications.
 
 \subsubsection{MooseViewer}
 

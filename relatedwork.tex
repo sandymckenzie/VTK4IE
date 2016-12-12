@@ -27,7 +27,7 @@ VTK generates the geometry in the form of actors that consist of polygons and pr
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\linewidth]{images/vtkActorToPF.pdf}
-  \caption{VTK, vtkActorToPF and Performer interaction diagram. (Recreated from Paul Rajlich~\ref{fig:vtkActorToPF}.)}
+  \caption{VTK, vtkActorToPF and Performer interaction diagram. (Recreated from Paul Rajlich~\cite{Leigh98limbo/vtk}.)}
   \label{fig:vtkActorToPF}
 \end{figure}
 
@@ -35,7 +35,7 @@ VTK can be used to create, transport and save geometry without rendering. As eff
 
 \textbf{\textit{OpenGL context sharing}} Rather than share just the VTK geometry, the application developer would like to use all of the VTK API from within their immersive application.
 In VTK, the renderer and render window classes are responsible for rendering scenes.
-VTK creates it's own window and associates an OpenGL context with that window to be used by the renderer.
+VTK creates its own window and associates an OpenGL context with that window to be used by the renderer.
 An OpenGL context represents: all of the state, the default framebuffer and everything affiliated with OpenGL with respect to the renderer, window and application.
 The application developer seeks to simply share the OpenGL context from the VR toolkit with a third-party rendering software (e.g. Delta3D~\cite{McDowell:2006}, OpenSceneGraph~\cite{Wang:2010} and VTK). 
 
@@ -43,10 +43,10 @@ In previous work, by Sherman et al.~\cite{Sherman:2010} and others, Delta3D
 and OpenSceneGraph were quickly modified to instead use windows and associated
 OpenGL contexts of a VR integration library such as Vrui~\cite{Kreylos:2006}.  
 % in final paper can mention FreeVR.
-OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements it's own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had an OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
+OmegaLib~\cite{Febretti:2014} software for hybrid reality display environments also implements its own OpenGL context sharing module for VTK, omegaVtk. The AlloSystem~\cite{Amatriain:2009} for the AlloSphere originally had an OpenGL context sharing VTK plugin, but has recently (October 2016) changed to our \texttt{vtkRenderingExternal} VTK module presented in this paper.
 These solutions are generally limited in their integration.
 Specifically, a rendering library that is unaware of the actual
-viewing matrix does generally not calculate lighting correctly, and
+viewing matrix does not calculate lighting correctly, and
 picking input operations do not conform to the shifted rendering. As the VTK API adapts and adds enhancements in time, these implementations are generally locked into to older versions of VTK.
 
 Our \texttt{vtkRenderingExternal} VTK module formalizes this integration, providing lights, interaction and picking connectivity that are lacking in other implementations. The module also offers the application developer complete access to the VTK pipeline.
@@ -55,7 +55,6 @@ Our \texttt{vtkRenderingExternal} VTK module formalizes this integration, provid
 To render in an immersive environment, derived classes of the
 \texttt{vtkRenderer} and \texttt{vtkRenderWindow} are created, which depend on fundamental calls to the VR toolkit.
 Thus, VTK-based applications can simply exchange these two items to run on the desktop or the immersive environment.
-VTK has evolved significantly over the years, as have the diversity of virtual reality products.
 vtkCave~\cite{Tufo:1999}, for the CAVELib~\cite{CAVELib:2016}, followed by
 vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012}, for
 VRJuggler~\cite{Bierbaum:2001}, created third-party software, essentially
