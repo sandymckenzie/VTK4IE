@@ -183,13 +183,13 @@ The consumer VR support is currently in the beta phase and has been tested on th
 \subsection{Performance enhancements}
 
 VTK is one of the most commonly used libraries for visualization and computation in the scientific community.
-Primarily written in C++, VTK provides classical and model visualization algorithms to visualize structured, unstructured, and point data sets on desktop, mobile, and web environments.
+Primarily written in C++, VTK provides classical and model visualization algorithms to visualize structured, unstructured and point datasets on desktop, mobile and web environments.
 VTK provides state-of-the-art implementations that are accessible via an API call.
-The benefit of using VTK comes from the fact that having the latest algorithm implementation simply requires using the existing implementation from the
-open-source, community-driven VTK repository or contributing one.
+The benefit of using VTK comes from the fact that having the latest algorithm implementation simply requires developers to use the existing implementation from the
+open-source, community-driven VTK repository or to contribute one.
 
-To allow VTK to function at levels needed for head-tracked rendering,
-many other enhancements have been added to the overall VTK system:
+To allow VTK to function at levels needed for head-tracked rendering entailed making
+many other enhancementsto the overall VTK system:
 using modern OpenGL,
 rendering transparencies with dual-depth peeling, and
 expanding the use of multi-threading.
@@ -199,24 +199,24 @@ expanding the use of multi-threading.
 The legacy rendering code in VTK is a group of implementation modules collectively called ``OpenGL."
 Through a grant from the National Institutes of Health, the OpenGL group has
 been rewritten as a drop-in replacement set of implementation modules
-collectively called ``OpenGL2".
+collectively called ``OpenGL2."
 This work aims to support rendering on modern graphics cards~\cite{Hanwell:2015}.
 
 The results have been nothing short of spectacular.
 Polygon rendering demonstrates a tenfold speed-up for the first frame rendering, followed by a two-hundredfold speed-up for subsequent frames for up to thirty million triangles.
-The previous volume rendering was also graphics processing unit (GPU) aware, and, thus, the improvement is a modest but substantial two fold speed-up. 
+The previous volume rendering was also graphics processing unit (GPU) aware, and thus, the improvement is a modest but substantial twofold speed-up. 
 
 To realize these performance enhancements, VTK now uses an OpenGL 3.2+ context, which is available on fairly low-end modern GPUs.
 For those application developers using the X11 window system on a Mac OSX system, xQuartz does not currently provide a suitable OpenGL context.
 As xQuatrz utilizes newer versions of Mesa going forward, we expect future versions will eventually meet the OpenGL2 requirements.
 
-\subsubsection{Dual-Depth Peeling}
+\subsubsection{Dual Depth Peeling}
 
-As we developed several example programs that leverage the \texttt{vtkRenderingExternal} module, we found that the rendering performance slowed as transparency was introduced into the scene. We have developed a dual-depth peeling algorithm to overcome this issue.
+As we developed several example programs that leverage the \texttt{vtkRenderingExternal} module, we found that the rendering performance slowed, as transparency was introduced into the scene. We have developed a dual depth peeling algorithm to overcome this issue.
 
 In OpenGL, polygons are broken up into fragments through the rasterization process.
 Each fragment corresponds to a pixel.
-An OpenGL fragment shader is a customizable program that determines the color of a fragment where all fragments for a single pixel are blended to determine the final color of the pixel.
+An OpenGL fragment shader is a customizable program that determines the color of a fragment where, all fragments for a single pixel are blended to determine the final color of the pixel.
 Composing multiple translucent fragments into a single pixel must be done carefully.
 There are three common strategies to this composition:
 
@@ -224,28 +224,28 @@ There are three common strategies to this composition:
 \item \textbf{Simple Alpha Blending} - Fragments are processed (blended using just alpha) in random order.
   It is very fast, but it provides unpredictable and generally incorrect results.
 \item \textbf{Sorted Geometry} - Geometry must be resorted each time the camera moves using \texttt{vtkDepthSortPolyData}.
-  Sorting is an expensive (slow) operation, but it provides generally consistent results with some artifacts where primitives overlap.
+  Sorting is an expensive (slow) operation, but it provides generally consistent results with some artifacts, where primitives overlap.
 \item \textbf{Depth Peeling} - Fragments are extracted and blended in a multipass render. Therefore, the process requires multiple geometry render passes.
 \end{compactitem}
 
 VTK by default uses depth peeling.
-To enhance rendering performance with transparency we implemented \texttt{vtkDualDepthPeelingPass}, which was originally proposed by nVidia in 2008~\cite{Bavoil:2008}.
-Dual-depth peeling extends traditional depth peeling by extracting two layers of fragments per-pass: from the front and back simultaneously.
-It uses a two-component depth buffer to track of peel information and three types of geometry passes:
+To enhance rendering performance with transparency, we implemented \texttt{vtkDualDepthPeelingPass}, which was originally proposed by nVidia in 2008~\cite{Bavoil:2008}.
+Dual depth peeling extends traditional depth peeling by extracting two layers of fragments per pass: from the front and back simultaneously.
+It uses a two-component depth buffer to track  peel information, and it employs and three types of geometry passes:
 
 \begin{compactitem}
-\item \textbf{InitializeDepth} - A pass that initializes buffers using opaque geometry information.
-\item \textbf{Peeling} - A repeated pass that extracts and blends translucent geometry peels. It extracts both near and far peels while blending far peels into the accumulation buffer.
-\item \textbf{AlphaBlending} - An optional pass to clean up unpeeled fragments that are used with occlusion thresholds.
+\item \textbf{InitializeDepth} - This is a pass that initializes buffers using opaque geometry information.
+\item \textbf{Peeling} - This is a repeated pass that extracts and blends translucent geometry peels. It extracts both near and far peels while blending far peels into the accumulation buffer.
+\item \textbf{AlphaBlending} - This is an optional pass to clean up unpeeled fragments that are used with occlusion thresholds.
 \end{compactitem}
 
-This algorithm provides a two fold speed-up for compositing in the appearance of transparent geometry.
+This algorithm provides a twofold speed-up for compositing in the appearance of transparent geometry.
 
 \subsubsection{vtkSMPTools}
 
 The field of parallel computing is advancing rapidly due to innovations in GPU and multicore technologies.
-The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing which uses different libraries such as TBB~\cite{TBB:2016}, OpenMP~\cite{OpenMP:2016} and XKaapi~\cite{Gautier:2013}.
-The typical target application is coarse-grained shared-memory computing as provided by mainstream multicore, threaded CPUs such as Intel's i5 and i7 architectures.
+The VTK community is working to make parallel computing for scientific visualization easier by introducing \texttt{vtkSMPTools}, an abstraction for threaded processing that uses different libraries such as Threaded Building Blocks (TBB)~\cite{TBB:2016}, OpenMP~\cite{OpenMP:2016} and XKaapi~\cite{Gautier:2013}.
+The typical target application is coarse-grained shared-memory computing as provided by mainstream multicore, threaded central processing units (CPUs) such as i5 and i7 architectures by Intel.
 
-For several of the example programs, that utilize the \texttt{vtkRenderingExternal} module, we leveraged new contouring algorithms in VTK that are readily parallelizable using \texttt{vtkSMPTools} and still incredibly efficient in serial mode, called \texttt{vtkFlyingEdges2D} and \texttt{vtkFlyingEdges3D}.
+For several of the example programs that utilize the \texttt{vtkRenderingExternal} module, we leveraged new contouring algorithms in VTK that are readily parallelizable using \texttt{vtkSMPTools} and are still incredibly efficient in serial mode. These algorithms are called \texttt{vtkFlyingEdges2D} and \texttt{vtkFlyingEdges3D}.
 While the OpenGL2 group improves rendering performance, \texttt{vtkSMPTools} can be used to enhance the geometry generation performance for scientific visualization.
