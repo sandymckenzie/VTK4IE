@@ -92,7 +92,7 @@ in 3D space, with closer elements occluding farther ones.
 VTK has its own classes and methods for interaction and scene-object manipulation.
 To synchronize the navigation in these two systems, the \texttt{vtkExternalOpenGLCamera} class has been added.
 This class empowers the external application to manage camera interaction for VTK objects.
-We added an OpenGL Graphics Library (GL) query in the external renderer, which uses the GL state system to get the projection and the modelview transformation matrices.
+We added an OpenGL Graphics Library (OpenGL) query in the external renderer, which uses the GL state system to get the projection and the modelview transformation matrices.
 These two matrices determine the location and the orientation of the end user's eye
 (camera) in the scene.
 \texttt{vtkExternalOpenGLRenderer} sets these matrices on \texttt{vtkExternalOpenGLCamera}.
@@ -144,7 +144,7 @@ The integrated VR support contains the following classes as drop-in replacements
 \textbf{\texttt{vtk(OpenVR/Oculus)RenderWindow}} - This is a derived class of the \texttt{RenderWindow} class.
 This class holds the initialization and main interfacing to the consumer VR toolkit. 
 
-\textbf{\texttt{vtk(OpenVR/Oculus)Renderer}} - This is a derived class of the \textt{Render} class.
+\textbf{\texttt{vtk(OpenVR/Oculus)Renderer}} - This is a derived class of the \texttt{Render} class.
 Consumer VR devices exist in real-world coordinates such as meters, while the world coordinate system of a visualization can be anything from microns to astronomical units. As such, movements in the real world need to be scaled and translated into reasonable movements in the world coordinates of the visualization. The \texttt{vtk(OpenVR/Oculus)Renderer} class computes a reasonable scale and a translation, which are then used to compute the view and input device transforms. 
 The class also sets an appropriate default clipping range expansion.
 
