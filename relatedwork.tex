@@ -55,8 +55,8 @@ Our \texttt{vtkRenderingExternal} VTK module formalizes this integration, provid
 To render in an immersive environment, derived classes of
 \texttt{vtkRenderer} and \texttt{vtkRenderWindow} are created, which depend on fundamental calls to the VR toolkit.
 Thus, VTK based applications can simply exchange these two items to run on the desktop or the immersive environment.
-\texttt{vtkCave}~\cite{Tufo:1999} for the CAVELib~\cite{CAVELib:2016}, followed by
-\textt{vjVTK}~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012} for
+vtkCave~\cite{Tufo:1999} for the CAVELib~\cite{CAVELib:2016}, followed by
+vjVTK~\cite{Blom:2006} and VR JuggLua~\cite{Pavlik:2012} for
 VRJuggler~\cite{Bierbaum:2001}, created third-party software, essentially
 deriving the \texttt{vtkRenderWindow} and \texttt{vtkRenderer} classes. Outside of VTK, lighting and interaction were not shared, which resulted in troublesome behavior.
 
