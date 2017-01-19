@@ -1,46 +1,46 @@
-There is a growing body of evidence that demonstrates measurable benefits
-attained when exploring scientific data using immersive interfaces, such as
-molecular research at UNC~\cite{Brooks:1990},
-genetics at NCSA~\cite{Brady:1995},
+There is a growing body of evidence that demonstrates the measurable benefits that can be
+attained when exploring scientific data using immersive interfaces such as
+molecular research at the University of North Carolina at Chapel Hill~\cite{Brooks:1990},
+genetics at the National Center for Supercomputing Applications~\cite{Brady:1995},
 oil well placement at the University of Colorado~\cite{Gruchalla:2004},  confocal microscopy data at Brown University~\cite{Prabhat:2008}, and interdisciplinary immersive visual analytics at the Electronic Visualization Laboratory~\cite{Marai:2016} to name but a few.
 While it is not scientifically verifiable, any time scientists
-express situations where they "discovered" some relationship in their data
+express situations where they ``discovered" some relationship in their data
 while immersed in a virtual reality (VR) system, we can make the case that the
 interface provided a utility that helped them advance their work.
 
 Yet, knowing that there are benefits is only half the equation.
-The other half is the cost.
-A considerable contribution to the cost | one that is often not
-formulated | is personnel time to get data into the VR system.
-That time expense is often exacerbated due to a lack of tools that
+The other half is cost.
+A considerable contribution to the cost|one that is often not
+formulated|is personnel time to get data into the VR system.
+That time expense is frequently exacerbated due to a lack of tools that
 allow data to be directly imbibed into a virtual environment.
 
 A path that many research teams have taken is to use the established and
 feature-rich Visualization Toolkit (VTK).
 VTK is an application programming interface (API) that provides quick access to an expanse
-of scientific visualization rendering algorithms, as well as to components
-for displaying and interacting with the results on a desktop.
+of scientific visualization rendering algorithms as well as to components
+for displaying and interacting with results on a desktop.
 While the concept of combining VTK with VR is sound, the
 compatibility of VTK with other rendering software presented a difficult
 challenge.  
 There were several reasonably successful attempts at this amalgamation,
 but in the end, there were either too many inefficiencies to allow the
 software to be adequately interactive, or the melding was too fragile to
-maintain as VTK and the VR libraries each evolved.
+maintain, as VTK and the VR libraries each evolved.
 
 Consequently, the better solution was to adapt VTK to enable it to be
 more easily integrated into other rendering systems.
 Thus, we adapted VTK by adding new options for rendering.
-Rather than always rendering into windows with graphics contexts
-created by VTK itself, it is now the possible to "externally" render
-into contexts provided by a collaborating system, or even to integrate a
+Rather than only being able to render into windows with graphics contexts
+created by VTK itself, it is now the possible to ``externally" render
+into contexts provided by a collaborating system or even to integrate a
 VR system directly into VTK.
 
 Immersive visualization efforts are often associated with research
-facilities that provide large-scale VR systems such as CAVEs\texttrademark and
-other large-screen walk-in displays.
+facilities that provide large-scale VR systems such as a CAVE\texttrademark or
+another large-screen walk-in display.
 There is also a growing audience of potential VR users who can now
-gain access to immersive interfaces through the new abundance and low-cost
+gain access to immersive interfaces through the new abundance and low cost
 of head-mounted displays (HMDs).
 Ideally, there would be one solution to reach both audiences. While this is
 technically possible, the consumer systems offer a simpler
@@ -48,24 +48,24 @@ approach that will entice many developers to follow that path.
 Thus, we offer two approaches, one that addresses the simpler solution
 of integrating VTK directly with Oculus or OpenVR and another that allows the integration of VTK with
 any full-fledged VR integration library that is capable of interfacing
-with CAVE-style and HMD displays.
+with CAVE\texttrademark style and HMD displays.
 
 \textbf{OpenGL context sharing}.
-Our \texttt{vtkRenderingExternal} VTK module provides a complete integration API,
-including proper lighting, interaction, picking and access to the entire
+Our \texttt{vtkRenderingExternal} VTK module provides a complete integration API
+that includes proper lighting, interaction, picking and access to the entire
 VTK pipeline.
-This, enables simple utilization for application developers using
-any OpenGL-based VR Toolkit.
+The module enables simple utilization for application developers with
+any OpenGL based VR Toolkit.
 
 \textbf{VR Toolkit embedding}.
-The Oculus and OpenVR VTK modules support several immersive environments directly
-without the issues faced by previous work, and it is a complete template
+The Oculus and OpenVR VTK modules directly support several immersive environments
+without the issues faced by previous work, and they provide a complete template
 for embedding other VR toolkits within VTK in future work.
 
 \textbf{Enhanced performance}.
 As the nature of immersive interfaces, especially HMDs, requires
 high-performance rendering, our effort also includes VTK rendering enhancements
-including the following:
+such as the following:
 
 \begin{compactitem}
 \item a new default OpenGL 3.2+ pipeline;
@@ -73,5 +73,5 @@ including the following:
 \item symmetric multiprocessing (SMP) tools and algorithms.
 \end{compactitem}
 
-In the sections that follow, we illustrate how our amalgamation of VTK and VR toolkits support our goals for enhancing scientific visualization through immersive environments.
+In the sections that follow, we illustrate how our amalgamation of VTK and VR toolkits supports our goals for enhancing scientific visualization through immersive environments.
 
